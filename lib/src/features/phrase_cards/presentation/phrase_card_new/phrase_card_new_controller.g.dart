@@ -1,25 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_repository.dart';
+part of 'phrase_card_new_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authRepositoryHash() => r'cd8476abd74e4665f92ce03b87b84ce05a9386e2';
+String _$phraseCardNewControllerHash() =>
+    r'f30d0548844fbfaa6dcef599296b92c56b5eafb1';
 
-/// See also [authRepository].
-@ProviderFor(authRepository)
-final authRepositoryProvider = Provider<AuthRepository>.internal(
-  authRepository,
-  name: r'authRepositoryProvider',
+/// See also [PhraseCardNewController].
+@ProviderFor(PhraseCardNewController)
+final phraseCardNewControllerProvider =
+    AutoDisposeAsyncNotifierProvider<PhraseCardNewController, void>.internal(
+  PhraseCardNewController.new,
+  name: r'phraseCardNewControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$authRepositoryHash,
+      : _$phraseCardNewControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef AuthRepositoryRef = ProviderRef<AuthRepository>;
+typedef _$PhraseCardNewController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

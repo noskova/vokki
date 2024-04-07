@@ -26,9 +26,10 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.goNamed(
-          AppRoute.cardAdd.name,
+          AppRoute.phraseCardNew.name,
         ),
         child: const Icon(Icons.add),
       ),

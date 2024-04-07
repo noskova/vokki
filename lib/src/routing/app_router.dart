@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vokki/src/features/account/data/auth_repository.dart';
 import 'package:vokki/src/features/account/presentation/account_screen.dart';
-import 'package:vokki/src/features/cards/presentation/card_add_screen.dart';
+import 'package:vokki/src/features/phrase_cards/presentation/phrase_card_new_screen.dart';
 import 'package:vokki/src/features/home/presentation/home_screen.dart';
 import 'package:vokki/src/features/sign_in/email_password_sign_in_form_type.dart';
 import 'package:vokki/src/features/sign_in/email_password_sign_in_screen.dart';
@@ -15,7 +15,7 @@ enum AppRoute {
   signIn,
   home,
   account,
-  cardAdd,
+  phraseCardNew,
 }
 
 @Riverpod(keepAlive: true)
@@ -48,11 +48,11 @@ GoRouter goRouter(GoRouterRef ref) {
             builder: (context, state) => const AccountScreen(),
           ),
           GoRoute(
-            path: 'addCard',
-            name: AppRoute.cardAdd.name,
+            path: 'PhraseCardNew',
+            name: AppRoute.phraseCardNew.name,
             pageBuilder: (context, state) => const MaterialPage(
               fullscreenDialog: true,
-              child: CardAddScreen(),
+              child: PhraseCardNewScreen(),
             ),
           ),
         ],

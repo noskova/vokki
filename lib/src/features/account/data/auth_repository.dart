@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vokki/src/features/account/data/firebase_app_user.dart';
 
 import 'package:vokki/src/features/account/domain/app_user.dart';
-import 'package:vokki/src/utils/in_memory_store.dart';
 
 part 'auth_repository.g.dart';
 
@@ -51,94 +50,7 @@ AuthRepository authRepository(AuthRepositoryRef ref) {
   return auth;
 }
 
-// final authRepositoryProvider = Provider<AuthRepository>((ref) {
-// });
-
 final authStateChangesProvider = StreamProvider.autoDispose<AppUser?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return authRepository.authStateChanges();
 });
-
-// class FirebaseAuthRepository implements AuthRepository {
-//   @override
-//   Stream<AppUser?> authStateChanges() {
-//     // TODO Implement
-//     throw UnimplementedError();
-//   }
-
-//   @override
-//   AppUser? get currentUser {
-//     // TODO Implement
-//     throw UnimplementedError();
-//   }
-
-//   @override
-//   Future<void> signInWithEmailAndPassword(
-//     String email,
-//     String password,
-//   ) {
-//     // TODO Implement
-//     throw UnimplementedError();
-//   }
-
-//   @override
-//   Future<void> createUserWithEmailAndPassword(
-//     String email,
-//     String password,
-//   ) {
-//     // TODO Implement
-//     throw UnimplementedError();
-//   }
-
-//   @override
-//   Future<void> signOut() {
-//     // TODO Implement
-//     throw UnimplementedError();
-//   }
-// }
-
-// class FakeAuthRepository implements AuthRepository {
-//   final _authState = InMemoryStore<AppUser?>(null);
-
-//   @override
-//   Stream<AppUser?> authStateChanges() => _authState.stream; // TODO Update
-//   @override
-//   AppUser? get currentUser => _authState.value; // TODO Update
-
-//   @override
-//   Future<void> signInWithEmailAndPassword(
-//     String email,
-//     String password,
-//   ) async {
-//     if (currentUser == null) {
-//       _createNewUser(email);
-//     }
-//   }
-
-//   @override
-//   Future<void> createUserWithEmailAndPassword(
-//       String email, String password) async {
-//     if (currentUser == null) {
-//       _createNewUser(email);
-//     }
-//   }
-
-//   @override
-//   Future<void> signOut() async {
-//     // await Future.delayed(const Duration(milliseconds: 300));
-//     // throw Exception('Sign out failed');
-//     _authState.value = null;
-//   }
-
-//   void dispose() => _authState.close();
-
-//   void _createNewUser(
-//     String email, {
-//     String? name,
-//   }) {
-//     _authState.value = AppUser(
-//         uid: email.split('').reversed.join(),
-//         email: email,
-//         name: name ?? email);
-//   }
-// }

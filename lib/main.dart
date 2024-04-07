@@ -5,15 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vokki/firebase_options.dart';
 import 'package:vokki/src/app.dart';
 
-late final FirebaseApp app;
-late final FirebaseAuth auth;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  app = await Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  auth = FirebaseAuth.instanceFor(app: app);
 
   runApp(
     const ProviderScope(
