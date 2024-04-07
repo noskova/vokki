@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vokki/src/common_widgets/alert_dialogs.dart';
+import 'package:vokki/src/constants/app_sizes.dart';
 import 'package:vokki/src/features/account/data/auth_repository.dart';
+import 'package:vokki/src/features/account/domain/app_user.dart';
 import 'package:vokki/src/features/account/presentation/account/account_screen_controller.dart';
 import 'package:vokki/src/localization/string_hardcoded.dart';
 import 'package:vokki/src/utils/async_value_ui.dart';
@@ -55,22 +57,77 @@ class UserDataList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authStateChangesProvider).value;
+    if (user == null) {
+      return const SizedBox.shrink();
+    }
     return ListView(
       shrinkWrap: true,
       children: [
         ListTile(
-          title: Text('Name'.hardcoded),
-          subtitle: Text(user?.name ?? ''),
-        ),
-        ListTile(
           title: Text('Email'.hardcoded),
-          subtitle: Text(user?.email ?? ''),
+          subtitle: Text(user.email ?? ''),
         ),
         ListTile(
           title: Text('User id'.hardcoded),
-          subtitle: Text(user?.uid ?? ''),
-        )
+          subtitle: Text(user.uid),
+        ),
+        gapH16,
+        ListTile(
+          title: EmailVerificationWidget(user: user),
+        ),
       ],
     );
+  }
+}
+
+class EmailVerificationWidget extends ConsumerWidget {
+  const EmailVerificationWidget({super.key, required this.user});
+  final AppUser user;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(accountScreenControllerProvider);
+    if (user.emailVerified == false) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          OutlinedButton(
+            onPressed: state.isLoading
+                ? null
+                : () async {
+                    final success = await ref
+                        .read(accountScreenControllerProvider.notifier)
+                        .sendEmailVerification(user);
+                    if (success && context.mounted) {
+                      showAlertDialog(
+                        context: context,
+                        title: 'Sent - now check your email'.hardcoded,
+                      );
+                    }
+                  },
+            child: Text(
+              'Verify email'.hardcoded,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Verified'.hardcoded,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(color: Colors.green.shade700),
+          ),
+          gapW8,
+          Icon(Icons.check_circle, color: Colors.green.shade700),
+        ],
+      );
+    }
   }
 }

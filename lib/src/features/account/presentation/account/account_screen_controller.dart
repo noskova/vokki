@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vokki/src/features/account/data/auth_repository.dart';
+import 'package:vokki/src/features/account/domain/app_user.dart';
 
 part 'account_screen_controller.g.dart';
 
@@ -16,5 +17,11 @@ class AccountScreenController extends _$AccountScreenController {
     state = await AsyncValue.guard(() async {
       await authRepository.signOut();
     });
+  }
+
+  Future<bool> sendEmailVerification(AppUser user) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => user.sendEmailVerification());
+    return state.hasError == false;
   }
 }

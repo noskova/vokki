@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:vokki/src/features/account/data/firebase_app_user.dart';
 
 import 'package:vokki/src/features/account/domain/app_user.dart';
 import 'package:vokki/src/utils/in_memory_store.dart';
@@ -40,16 +41,8 @@ class AuthRepository {
 
   AppUser? get currentUser => _convertUser(_auth.currentUser);
 
-  AppUser? _convertUser(User? user) {
-    if (user != null) {
-      return AppUser(
-        uid: user.uid,
-        email: user.email ?? '',
-        name: user.displayName ?? '',
-      );
-    }
-    return null;
-  }
+  AppUser? _convertUser(User? user) =>
+      user != null ? FirebaseAppUser(user) : null;
 }
 
 @Riverpod(keepAlive: true)
