@@ -4,46 +4,46 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vokki/src/common_widgets/primary_button.dart';
 import 'package:vokki/src/common_widgets/responsive_scrollable_card.dart';
 import 'package:vokki/src/constants/app_sizes.dart';
-import 'package:vokki/src/features/phrase_cards/presentation/phrase_card_new/phrase_card_new_controller.dart';
+import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_new_controller.dart';
 import 'package:vokki/src/localization/string_hardcoded.dart';
 import 'package:vokki/src/utils/async_value_ui.dart';
 
-class PhraseCardNewScreen extends StatelessWidget {
-  const PhraseCardNewScreen({super.key});
+class FlashCardNewScreen extends StatelessWidget {
+  const FlashCardNewScreen({super.key});
 
   // * Keys for testing using find.byKey()
-  static const phraseKey = Key('phrase');
+  static const wordKey = Key('word');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New card'.hardcoded),
+        title: Text('New flashcard'.hardcoded),
       ),
       body: ListView(
         children: const [
           gapH16,
-          PhraseCardTextInput(),
+          FlashCardTextInput(),
         ],
       ),
     );
   }
 }
 
-class PhraseCardTextInput extends ConsumerStatefulWidget {
-  const PhraseCardTextInput({this.onCardInputAdded, super.key});
+class FlashCardTextInput extends ConsumerStatefulWidget {
+  const FlashCardTextInput({this.onCardInputAdded, super.key});
   final VoidCallback? onCardInputAdded;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _PhraseCardTextInputState();
+      _FlashCardTextInputState();
 }
 
-class _PhraseCardTextInputState extends ConsumerState<PhraseCardTextInput> {
+class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
   final _formKey = GlobalKey<FormState>();
   final _node = FocusScopeNode();
-  final _phraseController = TextEditingController();
+  final _wordController = TextEditingController();
 
-  String get phrase => _phraseController.text;
+  String get word => _wordController.text;
 
   var _submitted = false;
 
@@ -51,7 +51,7 @@ class _PhraseCardTextInputState extends ConsumerState<PhraseCardTextInput> {
   void dispose() {
     // * TextEditingControllers should be always disposed
     _node.dispose();
-    _phraseController.dispose();
+    _wordController.dispose();
     super.dispose();
   }
 
@@ -59,9 +59,11 @@ class _PhraseCardTextInputState extends ConsumerState<PhraseCardTextInput> {
     setState(() => _submitted = true);
     // only submit the form if validation passes
     if (_formKey.currentState!.validate()) {
-      final controller = ref.read(phraseCardNewControllerProvider.notifier);
+      final controller = ref.read(flashCardNewControllerProvider.notifier);
       final success = await controller.submit(
-        phrase: phrase,
+        id: 'temp_id',
+        word: word,
+        translation: 'temp_translation',
       );
       if (success) {
         widget.onCardInputAdded?.call();
@@ -69,17 +71,17 @@ class _PhraseCardTextInputState extends ConsumerState<PhraseCardTextInput> {
     }
   }
 
-  void _phraseEditingComplete() {
+  void _wordEditingComplete() {
     _node.nextFocus();
   }
 
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue>(
-      phraseCardNewControllerProvider,
+      flashCardNewControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final state = ref.watch(phraseCardNewControllerProvider);
+    final state = ref.watch(flashCardNewControllerProvider);
     return ResponsiveScrollableCard(
       child: FocusScope(
         node: _node,
@@ -91,8 +93,8 @@ class _PhraseCardTextInputState extends ConsumerState<PhraseCardTextInput> {
               gapH8,
               // Email field
               TextFormField(
-                key: PhraseCardNewScreen.phraseKey,
-                controller: _phraseController,
+                key: FlashCardNewScreen.wordKey,
+                controller: _wordController,
                 decoration: InputDecoration(
                   labelText: 'Phrase'.hardcoded,
                   enabled: !state.isLoading,
@@ -104,7 +106,7 @@ class _PhraseCardTextInputState extends ConsumerState<PhraseCardTextInput> {
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.text,
                 keyboardAppearance: Brightness.light,
-                onEditingComplete: () => _phraseEditingComplete(),
+                onEditingComplete: () => _wordEditingComplete(),
                 inputFormatters: const <TextInputFormatter>[
                   // ValidatorInputFormatter(
                   //     editingValidator: EmailEditingRegexValidator()),

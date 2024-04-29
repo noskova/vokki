@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vokki/src/features/account/data/auth_repository.dart';
 import 'package:vokki/src/features/account/presentation/account_screen.dart';
-import 'package:vokki/src/features/phrase_cards/presentation/phrase_card_new_screen.dart';
+import 'package:vokki/src/features/flashcards/presentation/flash_card_new_screen.dart';
+import 'package:vokki/src/features/flashcards/presentation/flash_card_screen/flash_card_screen.dart';
+import 'package:vokki/src/features/flashcards/presentation/flash_cards_list/flash_cards_list.dart';
 import 'package:vokki/src/features/home/presentation/home_screen.dart';
 import 'package:vokki/src/features/sign_in/email_password_sign_in_form_type.dart';
 import 'package:vokki/src/features/sign_in/email_password_sign_in_screen.dart';
@@ -12,10 +14,11 @@ import 'package:vokki/src/routing/go_router_refresh_stream.dart';
 part 'app_router.g.dart';
 
 enum AppRoute {
+  flashCard,
   signIn,
   home,
   account,
-  phraseCardNew,
+  flashCardNew,
 }
 
 @Riverpod(keepAlive: true)
@@ -40,7 +43,7 @@ GoRouter goRouter(GoRouterRef ref) {
       GoRoute(
         path: '/',
         name: AppRoute.home.name,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => const FlashCardsListScreen(),
         routes: [
           GoRoute(
             path: 'account',
@@ -48,11 +51,19 @@ GoRouter goRouter(GoRouterRef ref) {
             builder: (context, state) => const AccountScreen(),
           ),
           GoRoute(
-            path: 'PhraseCardNew',
-            name: AppRoute.phraseCardNew.name,
+            path: 'flash-card/:id',
+            name: AppRoute.flashCard.name,
+            builder: (context, state) {
+              final flashCardId = state.pathParameters['id']!;
+              return FlashCardScreen(flashCardId: flashCardId);
+            },
+          ),
+          GoRoute(
+            path: 'flash-card-new',
+            name: AppRoute.flashCardNew.name,
             pageBuilder: (context, state) => const MaterialPage(
               fullscreenDialog: true,
-              child: PhraseCardNewScreen(),
+              child: FlashCardNewScreen(),
             ),
           ),
         ],
