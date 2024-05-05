@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vokki/src/features/flashcards/domain/flash_card.dart';
 
@@ -41,7 +42,9 @@ class FlashCardsRepository {
         'id': id,
         'word': word,
         // TODO: add support for multiple translations
-        'translation': {'es': translation},
+        'translation': translation,
+        // TODO: add user id here
+        'uid': '',
       },
       // use merge: true to keep old fields (if any)
       SetOptions(merge: true),

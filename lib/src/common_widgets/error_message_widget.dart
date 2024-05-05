@@ -9,7 +9,7 @@ class ErrorMessageWidget extends StatelessWidget {
     return Text(
       errorMessage,
       style:
-          Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.red),
+          Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.teal),
     );
   }
 }

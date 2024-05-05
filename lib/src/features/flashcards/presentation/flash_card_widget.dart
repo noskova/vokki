@@ -27,7 +27,7 @@ class FlashCardWidget extends ConsumerWidget {
                   style: Theme.of(context).textTheme.titleLarge),
               gapH8,
               Text(
-                flashCard.translation['es'] ?? '',
+                flashCard.translation,
                 style: Theme.of(context).textTheme.bodySmall,
               )
             ],

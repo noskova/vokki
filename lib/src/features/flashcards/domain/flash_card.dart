@@ -9,18 +9,21 @@ class FlashCard extends Equatable {
     required this.id,
     required this.word,
     required this.translation,
+    required this.uid,
   });
 
   /// Unique flsashcard id
   final FlashCardID id;
   final String word;
-  final Map<String, String> translation;
+  final String translation;
+  final String uid;
 
   factory FlashCard.fromMap(Map<String, dynamic> map) {
     return FlashCard(
       id: map['id'] as String,
       word: map['word'] as String,
       translation: map['translation'] ?? '',
+      uid: map['uid'] as String,
     );
   }
 
@@ -28,17 +31,20 @@ class FlashCard extends Equatable {
         'id': id,
         'word': word,
         'translation': translation,
+        'uid': uid,
       };
 
   FlashCard copyWith({
     FlashCardID? id,
     String? word,
-    Map<String, String>? translation,
+    String? translation,
+    String? uid,
   }) {
     return FlashCard(
       id: id ?? this.id,
       word: word ?? this.word,
       translation: translation ?? this.translation,
+      uid: uid ?? this.uid,
     );
   }
 
@@ -47,6 +53,7 @@ class FlashCard extends Equatable {
         id,
         word,
         translation,
+        uid,
       ];
 
   @override

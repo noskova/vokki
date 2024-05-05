@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:vokki/src/features/flashcards/data/flash_cards_search_repository.dart';
@@ -31,7 +32,6 @@ class FlashCardsSearchQueryNotifier extends _$FlashCardsSearchQueryNotifier {
 
   void _updateState(String query) {
     // only update the state once the query has been debounced
-    // debugPrint('state = $query');
     state = query;
   }
 

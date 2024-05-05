@@ -71,7 +71,7 @@ class FlashCardDetails extends ConsumerWidget {
               // Text(flashCard.word,
               //     style: Theme.of(context).textTheme.titleLarge),
               // gapH8,
-              Text(flashCard.translation['es'] ?? '',
+              Text(flashCard.translation,
                   style: Theme.of(context).textTheme.bodySmall),
               // Only show average if there is at least one rating
             ],

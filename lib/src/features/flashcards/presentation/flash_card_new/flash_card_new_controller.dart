@@ -12,7 +12,7 @@ class FlashCardNewController extends _$FlashCardNewController {
     // nothing to do
   }
 
-  // TODO id doesn't make sense here since it should be generated in Firebase
+  // TODO: add user id here
   Future<bool> submit({
     required String id,
     required String word,
