@@ -13,6 +13,11 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
     final user = ref.watch(authStateChangesProvider).value;
 
     return AppBar(
+      backgroundColor: const Color(0xAAf1fdfb),
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 16.0),
+        child: Image.asset('lib/assets/images/vokki_logo.png'),
+      ),
       actions: [
         Greeting(user: user),
         IconButton(
