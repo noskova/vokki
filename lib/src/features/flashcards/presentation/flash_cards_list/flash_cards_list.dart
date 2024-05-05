@@ -45,9 +45,7 @@ class _FlashCardsListScreenState extends State<FlashCardsListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const VokkiAppBar(
-        showLogo: true,
-      ),
+      appBar: const VokkiAppBar(),
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [

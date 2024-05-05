@@ -88,7 +88,7 @@ class VokkiTheme {
       brightness: Brightness.light,
       primaryColor: VokkiColorSchemeLight.colorScheme.primary,
       colorScheme: VokkiColorSchemeLight.colorScheme,
-      scaffoldBackgroundColor: VokkiColorSchemeLight.colorScheme.surface,
+      scaffoldBackgroundColor: VokkiColorSchemeLight.colorScheme.tertiary,
       appBarTheme: AppBarTheme(
         backgroundColor: VokkiColorSchemeLight.colorScheme.surfaceVariant,
         // surfaceTintColor: VokkiColorSchemeLight.colorScheme.surfaceVariant,
@@ -105,8 +105,15 @@ class VokkiTheme {
         //   color: VokkiColorSchemeLight.colorScheme.primary,
         // ),
       ),
+      iconTheme: IconThemeData(
+        color: VokkiColorSchemeLight.colorScheme.secondary,
+      ),
+      cardTheme: _baseTheme().cardTheme.copyWith(
+            color: VokkiColorSchemeLight.colorScheme.onPrimary,
+            elevation: 0,
+          ),
       listTileTheme: ListTileThemeData(
-        tileColor: VokkiColorSchemeLight.colorScheme.surface,
+        tileColor: VokkiColorSchemeLight.colorScheme.tertiary,
         selectedTileColor: VokkiColorSchemeLight.colorScheme.primaryContainer,
         selectedColor: VokkiColorSchemeLight.colorScheme.onBackground,
         subtitleTextStyle: _baseTheme().textTheme.bodySmall?.copyWith(
@@ -125,7 +132,7 @@ class VokkiTheme {
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
-          minimumSize: const Size.fromHeight(55),
+          //minimumSize: const Size.fromHeight(55),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
@@ -160,10 +167,10 @@ class VokkiTheme {
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
           iconColor: MaterialStateProperty.resolveWith(
-            (states) => VokkiColorSchemeLight.colorScheme.inverseSurface,
+            (states) => VokkiColorSchemeLight.colorScheme.primary,
           ),
           overlayColor: MaterialStateProperty.all(
-            VokkiColorSchemeLight.colorScheme.inverseSurface.withOpacity(0.2),
+            VokkiColorSchemeLight.colorScheme.primary.withOpacity(0.2),
           ),
         ),
       ),
@@ -210,7 +217,7 @@ class VokkiTheme {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: VokkiColorSchemeLight.colorScheme.outlineVariant,
+            color: VokkiColorSchemeLight.colorScheme.secondary,
           ),
           borderRadius: BorderRadius.circular(5),
         ),
@@ -254,7 +261,7 @@ class VokkiTheme {
           .floatingActionButtonTheme
           .copyWith(
             foregroundColor: VokkiColorSchemeLight.colorScheme.inversePrimary,
-            backgroundColor: VokkiColorSchemeLight.colorScheme.outlineVariant,
+            backgroundColor: VokkiColorSchemeLight.colorScheme.primary,
           ),
       timePickerTheme: TimePickerThemeData(
         confirmButtonStyle: ButtonStyle(

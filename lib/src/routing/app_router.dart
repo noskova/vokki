@@ -43,7 +43,7 @@ GoRouter goRouter(GoRouterRef ref) {
       GoRoute(
         path: '/',
         name: AppRoute.home.name,
-        builder: (context, state) => const FlashCardsListScreen(),
+        builder: (context, state) => const HomeScreen(),
         routes: [
           GoRoute(
             path: 'account',

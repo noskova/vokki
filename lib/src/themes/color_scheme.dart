@@ -26,7 +26,7 @@ class VokkiColorSchemeLight {
       },
     );
     const MaterialColor neutralColor = MaterialColor(
-      0xFFddedec,
+      0xFFFFFFFF,
       <int, Color>{
         50: Color(0xFFFFFFFF), // white
         100: Color(0xFFF6F6F6), // cultured
@@ -42,7 +42,7 @@ class VokkiColorSchemeLight {
       brightness: Brightness.light,
 
       primary: primaryColor,
-      onPrimary: neutralColor.shade50, //Switch background Color
+      onPrimary: neutralColor, //Switch background Color
 
       primaryContainer: primaryColor.withOpacity(0.1), // CircleAvatar
       onPrimaryContainer: neutralColor.shade50, //TextForCircleAvatar

@@ -13,8 +13,6 @@ class VokkiAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('showLogo: $showLogo');
-
     return AppBar(
       leading: (showLogo ?? false)
           ? Padding(
@@ -23,9 +21,9 @@ class VokkiAppBar extends StatelessWidget implements PreferredSizeWidget {
             )
           : null,
       actions: [
-        const Greeting(),
+        //const Greeting(),
         IconButton(
-          icon: const Icon(Icons.account_circle),
+          icon: const Icon(Icons.account_circle, size: Sizes.p40),
           onPressed: () => context.goNamed(
             AppRoute.account.name,
           ),
