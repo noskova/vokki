@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vokki/src/common_widgets/async_value_widget.dart';
 import 'package:vokki/src/common_widgets/empty_placeholder_widget.dart';
-import 'package:vokki/src/common_widgets/home_app_bar.dart';
+import 'package:vokki/src/common_widgets/vokki_app_bar.dart';
 import 'package:vokki/src/common_widgets/responsive_center.dart';
 import 'package:vokki/src/common_widgets/responsive_two_columns_layout.dart';
 import 'package:vokki/src/constants/app_sizes.dart';
@@ -18,7 +18,7 @@ class FlashCardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const HomeAppBar(),
+      appBar: const VokkiAppBar(),
       body: Consumer(
         builder: (context, ref, _) {
           final flashCardValue =

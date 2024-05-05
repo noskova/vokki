@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vokki/src/common_widgets/home_app_bar.dart';
+import 'package:vokki/src/common_widgets/vokki_app_bar.dart';
 import 'package:vokki/src/common_widgets/responsive_center.dart';
 import 'package:vokki/src/constants/app_sizes.dart';
 import 'package:vokki/src/features/flashcards/presentation/flash_cards_list/flash_cards_search_text_field.dart';
@@ -45,7 +45,9 @@ class _FlashCardsListScreenState extends State<FlashCardsListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const HomeAppBar(),
+      appBar: const VokkiAppBar(
+        showLogo: true,
+      ),
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
