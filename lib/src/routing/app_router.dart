@@ -19,6 +19,7 @@ enum AppRoute {
   home,
   account,
   flashCardNew,
+  flashCardsList,
 }
 
 @Riverpod(keepAlive: true)
@@ -51,12 +52,19 @@ GoRouter goRouter(GoRouterRef ref) {
             builder: (context, state) => const AccountScreen(),
           ),
           GoRoute(
-            path: 'flash-card/:id',
-            name: AppRoute.flashCard.name,
-            builder: (context, state) {
-              final flashCardId = state.pathParameters['id']!;
-              return FlashCardScreen(flashCardId: flashCardId);
-            },
+            path: 'flash-cards-list',
+            name: AppRoute.flashCardsList.name,
+            builder: (context, state) => const FlashCardsListScreen(),
+            routes: [
+              GoRoute(
+                path: 'flash-card/:id',
+                name: AppRoute.flashCard.name,
+                builder: (context, state) {
+                  final flashCardId = state.pathParameters['id']!;
+                  return FlashCardScreen(flashCardId: flashCardId);
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: 'flash-card-new',

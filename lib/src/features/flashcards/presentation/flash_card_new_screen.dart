@@ -13,6 +13,7 @@ class FlashCardNewScreen extends StatelessWidget {
 
   // * Keys for testing using find.byKey()
   static const wordKey = Key('word');
+  static const translationKey = Key('translation');
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +43,10 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
   final _formKey = GlobalKey<FormState>();
   final _node = FocusScopeNode();
   final _wordController = TextEditingController();
+  final _translationController = TextEditingController();
 
   String get word => _wordController.text;
+  String get translation => _translationController.text;
 
   var _submitted = false;
 
@@ -52,6 +55,7 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
     // * TextEditingControllers should be always disposed
     _node.dispose();
     _wordController.dispose();
+    _translationController.dispose();
     super.dispose();
   }
 
@@ -63,7 +67,7 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
       final success = await controller.submit(
         id: 'temp_id',
         word: word,
-        translation: 'temp_translation',
+        translation: translation,
       );
       if (success) {
         widget.onCardInputAdded?.call();
@@ -72,6 +76,10 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
   }
 
   void _wordEditingComplete() {
+    _node.nextFocus();
+  }
+
+  void _translationEditingComplete() {
     _node.nextFocus();
   }
 
@@ -96,7 +104,7 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
                 key: FlashCardNewScreen.wordKey,
                 controller: _wordController,
                 decoration: InputDecoration(
-                  labelText: 'Phrase'.hardcoded,
+                  labelText: 'Word'.hardcoded,
                   enabled: !state.isLoading,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -113,7 +121,28 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
                 ],
               ),
               gapH8,
-              // Password field
+              TextFormField(
+                key: FlashCardNewScreen.translationKey,
+                controller: _translationController,
+                decoration: InputDecoration(
+                  labelText: 'Translation'.hardcoded,
+                  enabled: !state.isLoading,
+                ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                // validator: (email) =>
+                //     !_submitted ? null : emailErrorText(email ?? ''),
+                autocorrect: false,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.text,
+                keyboardAppearance: Brightness.light,
+                maxLines: 3,
+                onEditingComplete: () => _translationEditingComplete(),
+                inputFormatters: const <TextInputFormatter>[
+                  // ValidatorInputFormatter(
+                  //     editingValidator: EmailEditingRegexValidator()),
+                ],
+              ),
+              gapH8,
               PrimaryButton(
                 text: 'Submit'.hardcoded,
                 isLoading: state.isLoading,
