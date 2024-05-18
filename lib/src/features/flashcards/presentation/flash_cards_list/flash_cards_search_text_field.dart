@@ -31,29 +31,34 @@ class _FlashCardsSearchTextFieldState
     return ValueListenableBuilder<TextEditingValue>(
       valueListenable: _controller,
       builder: (context, value, _) {
-        return TextField(
-          controller: _controller,
-          enabled: true, // * enable search
-          autofocus: false,
-          style: Theme.of(context).textTheme.titleLarge,
-          decoration: InputDecoration(
-            hintText: 'Search flashcards'.hardcoded,
-            icon: const Icon(Icons.search),
-            suffixIcon: value.text.isNotEmpty
-                ? IconButton(
-                    onPressed: () {
-                      _controller.clear();
-                      ref
-                          .read(flashCardsSearchQueryNotifierProvider.notifier)
-                          .setQuery('');
-                    },
-                    icon: const Icon(Icons.clear),
-                  )
-                : null,
+        return Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _controller,
+              enabled: true, // * enable search
+              autofocus: false,
+              style: Theme.of(context).textTheme.titleLarge,
+              decoration: InputDecoration(
+                hintText: 'Search flashcards'.hardcoded,
+                suffixIcon: value.text.isNotEmpty
+                    ? IconButton(
+                        onPressed: () {
+                          _controller.clear();
+                          ref
+                              .read(flashCardsSearchQueryNotifierProvider
+                                  .notifier)
+                              .setQuery('');
+                        },
+                        icon: const Icon(Icons.clear),
+                      )
+                    : null,
+              ),
+              onChanged: (text) => ref
+                  .read(flashCardsSearchQueryNotifierProvider.notifier)
+                  .setQuery(text),
+            ),
           ),
-          onChanged: (text) => ref
-              .read(flashCardsSearchQueryNotifierProvider.notifier)
-              .setQuery(text),
         );
       },
     );
