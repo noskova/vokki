@@ -143,6 +143,11 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
                 ],
               ),
               gapH8,
+              IconButton(
+                icon: const Icon(Icons.document_scanner, size: Sizes.p40),
+                onPressed: () => {},
+              ),
+              gapH8,
               PrimaryButton(
                 text: 'Submit'.hardcoded,
                 isLoading: state.isLoading,
