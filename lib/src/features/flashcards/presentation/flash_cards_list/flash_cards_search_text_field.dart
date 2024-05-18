@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vokki/src/constants/app_sizes.dart';
 import 'package:vokki/src/features/flashcards/presentation/flash_cards_list/flash_cards_search_query_notifier.dart';
 import 'package:vokki/src/localization/string_hardcoded.dart';
 
@@ -33,7 +34,7 @@ class _FlashCardsSearchTextFieldState
       builder: (context, value, _) {
         return Card(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(Sizes.p16),
             child: TextField(
               controller: _controller,
               enabled: true, // * enable search

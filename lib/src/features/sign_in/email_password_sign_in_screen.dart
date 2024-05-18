@@ -28,9 +28,35 @@ class EmailPasswordSignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sign In'.hardcoded)),
-      body: EmailPasswordSignInContents(
-        formType: formType,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: Sizes.p12),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height >
+                          MediaQuery.of(context).size.width
+                      ? MediaQuery.of(context).size.height * 0.15
+                      : MediaQuery.of(context).size.width * 0.15,
+                  child: Image.asset('lib/assets/images/vokki_logo.png'),
+                ),
+                gapH16,
+                Text(
+                  'Vokki'.hardcoded,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                gapH16,
+                Text(
+                  'Let\'s go word hunting, huuuman!'.hardcoded,
+                ),
+                EmailPasswordSignInContents(
+                  formType: formType,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
