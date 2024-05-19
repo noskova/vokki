@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vokki/src/common_widgets/async_value_widget.dart';
 import 'package:vokki/src/common_widgets/primary_button.dart';
 import 'package:vokki/src/common_widgets/responsive_scrollable_card.dart';
 import 'package:vokki/src/constants/app_sizes.dart';
 import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_new_controller.dart';
+import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_text_scan_notifier.dart';
 import 'package:vokki/src/localization/string_hardcoded.dart';
+import 'package:vokki/src/routing/app_router.dart';
 import 'package:vokki/src/utils/async_value_ui.dart';
 
 class FlashCardNewScreen extends StatelessWidget {
@@ -90,6 +94,9 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
       (_, state) => state.showAlertDialogOnError(context),
     );
     final state = ref.watch(flashCardNewControllerProvider);
+
+    _wordController.text = ref.watch(flashCardTextScanNotifierProvider);
+
     return ResponsiveScrollableCard(
       child: FocusScope(
         node: _node,
@@ -104,7 +111,7 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
                 key: FlashCardNewScreen.wordKey,
                 controller: _wordController,
                 decoration: InputDecoration(
-                  labelText: 'Word'.hardcoded,
+                  labelText: 'Word or phrase'.hardcoded,
                   enabled: !state.isLoading,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -114,12 +121,14 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.text,
                 keyboardAppearance: Brightness.light,
+                maxLines: 3,
                 onEditingComplete: () => _wordEditingComplete(),
                 inputFormatters: const <TextInputFormatter>[
                   // ValidatorInputFormatter(
                   //     editingValidator: EmailEditingRegexValidator()),
                 ],
               ),
+
               gapH8,
               TextFormField(
                 key: FlashCardNewScreen.translationKey,
@@ -145,7 +154,9 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
               gapH8,
               IconButton(
                 icon: const Icon(Icons.document_scanner, size: Sizes.p40),
-                onPressed: () => {},
+                onPressed: () => context.goNamed(
+                  AppRoute.flashCardTextScan.name,
+                ),
               ),
               gapH8,
               PrimaryButton(

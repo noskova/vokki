@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vokki/src/features/account/data/auth_repository.dart';
 import 'package:vokki/src/features/account/presentation/account_screen.dart';
 import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_new_screen.dart';
+import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_text_scan_screen.dart';
 import 'package:vokki/src/features/flashcards/presentation/flash_card_screen/flash_card_screen.dart';
 import 'package:vokki/src/features/flashcards/presentation/flash_cards_list/flash_cards_list.dart';
 import 'package:vokki/src/features/home/presentation/home_screen.dart';
@@ -19,6 +20,7 @@ enum AppRoute {
   home,
   account,
   flashCardNew,
+  flashCardTextScan,
   flashCardsList,
 }
 
@@ -73,6 +75,13 @@ GoRouter goRouter(GoRouterRef ref) {
               fullscreenDialog: true,
               child: FlashCardNewScreen(),
             ),
+            routes: [
+              GoRoute(
+                path: 'flash-card-text-scan',
+                name: AppRoute.flashCardTextScan.name,
+                builder: (context, state) => const FlashCardTextScanScreen(),
+              ),
+            ],
           ),
         ],
       ),

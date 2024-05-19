@@ -24,7 +24,7 @@ class FlashCardNewController extends _$FlashCardNewController {
   }
 
   Future<void> _newCard(String id, String word, String translation) async {
-    final wordCardsRepository = ref.read(flashCardsRepositoryProvider);
-    return wordCardsRepository.createFlashCard(id, word, translation);
+    final flashCardsRepository = ref.read(flashCardsRepositoryProvider);
+    return flashCardsRepository.createFlashCard(id, word, translation);
   }
 }
