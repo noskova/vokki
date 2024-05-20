@@ -167,7 +167,6 @@ class _EmailPasswordSignInContentsState
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email'.hardcoded,
-                  hintText: 'test@test.com'.hardcoded,
                   enabled: !state.isLoading,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,

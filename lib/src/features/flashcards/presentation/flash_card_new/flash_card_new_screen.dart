@@ -9,8 +9,7 @@ import 'package:vokki/src/common_widgets/responsive_scrollable_card.dart';
 import 'package:vokki/src/constants/app_sizes.dart';
 import 'package:vokki/src/features/account/data/auth_repository.dart';
 import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_new_controller.dart';
-import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_text_record_notifier.dart';
-import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_text_scan_notifier.dart';
+import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_new_notifier.dart';
 import 'package:vokki/src/localization/string_hardcoded.dart';
 import 'package:vokki/src/routing/app_router.dart';
 import 'package:vokki/src/utils/async_value_ui.dart';
@@ -66,6 +65,20 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
     super.dispose();
   }
 
+  void translate() {
+    final gemini = Gemini.instance;
+
+    try {
+      gemini
+          .text("Translate to Russian: ${_wordController.text}")
+          .then((value) {
+        _translationController.text = value?.output ?? '';
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> _submit() async {
     setState(() => _submitted = true);
     // only submit the form if validation passes
@@ -103,21 +116,10 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
     );
     final state = ref.watch(flashCardNewControllerProvider);
 
-    _wordController.text = ref.watch(flashCardTextScanNotifierProvider);
-    _wordController.text = ref.watch(flashCardTextRecordNotifierProvider);
+    _wordController.text = ref.watch(flashCardNewNotifierProvider);
 
     if (_wordController.text != '') {
-      final gemini = Gemini.instance;
-
-      try {
-        gemini
-            .text("Translate to Russian: ${_wordController.text}")
-            .then((value) {
-          _translationController.text = value?.output ?? '';
-        });
-      } catch (e) {
-        print(e);
-      }
+      translate();
     }
 
     return ResponsiveScrollableCard(
@@ -136,6 +138,17 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
                 decoration: InputDecoration(
                   labelText: 'Word or phrase'.hardcoded,
                   enabled: !state.isLoading,
+                  suffixIcon: _wordController.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: () {
+                            _translationController.clear();
+                            ref
+                                .read(flashCardNewNotifierProvider.notifier)
+                                .updateState('');
+                          },
+                          icon: const Icon(Icons.clear),
+                        )
+                      : null,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 // validator: (email) =>
@@ -180,6 +193,14 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
                 decoration: InputDecoration(
                   labelText: 'Translation'.hardcoded,
                   enabled: !state.isLoading,
+                  suffixIcon: _translationController.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: () {
+                            _translationController.clear();
+                          },
+                          icon: const Icon(Icons.clear),
+                        )
+                      : null,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 // validator: (email) =>
@@ -196,7 +217,15 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
                 ],
               ),
               gapH8,
-
+              Wrap(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.translate, size: Sizes.p40),
+                    onPressed: () => translate(),
+                  ),
+                ],
+              ),
+              gapH8,
               PrimaryButton(
                 text: 'Submit'.hardcoded,
                 isLoading: state.isLoading,

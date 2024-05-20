@@ -1,10 +1,10 @@
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'flash_card_text_scan_notifier.g.dart';
+part 'flash_card_new_notifier.g.dart';
 
 @riverpod
-class FlashCardTextScanNotifier extends _$FlashCardTextScanNotifier {
+class FlashCardNewNotifier extends _$FlashCardNewNotifier {
   @override
   String build() {
     return '';
@@ -21,6 +21,10 @@ class FlashCardTextScanNotifier extends _$FlashCardTextScanNotifier {
     } finally {
       textRecognizer.close();
     }
+  }
+
+  Future<void> recordText({required String pronouncedWords}) async {
+    updateState(pronouncedWords);
   }
 
   void updateState(String text) {

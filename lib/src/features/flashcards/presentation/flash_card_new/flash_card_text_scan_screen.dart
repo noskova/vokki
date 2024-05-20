@@ -6,7 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vokki/src/constants/app_sizes.dart';
-import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_text_scan_notifier.dart';
+import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_new_notifier.dart';
+
 import 'package:vokki/src/localization/string_hardcoded.dart';
 
 class FlashCardTextScanScreen extends ConsumerStatefulWidget {
@@ -183,7 +184,7 @@ class _FlashCardTextScanScreenState
 
       final inputImage = InputImage.fromFile(file);
 
-      ref.read(flashCardTextScanNotifierProvider.notifier).scanText(
+      ref.read(flashCardNewNotifierProvider.notifier).scanText(
             inputImage: inputImage,
           );
 

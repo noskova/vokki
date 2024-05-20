@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:vokki/src/constants/app_sizes.dart';
-import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_text_record_notifier.dart';
+import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_new_notifier.dart';
 import 'package:vokki/src/localization/string_hardcoded.dart';
 
 class FlashCardTextRecordScreen extends ConsumerStatefulWidget {
@@ -44,7 +44,7 @@ class _FlashCardTextRecordScreenState
     setState(() {
       _wordsSpoken = "${result.recognizedWords}";
     });
-    ref.read(flashCardTextRecordNotifierProvider.notifier).recordText(
+    ref.read(flashCardNewNotifierProvider.notifier).recordText(
           pronouncedWords: _wordsSpoken,
         );
   }
