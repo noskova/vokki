@@ -7,7 +7,9 @@ import 'package:vokki/src/common_widgets/async_value_widget.dart';
 import 'package:vokki/src/common_widgets/primary_button.dart';
 import 'package:vokki/src/common_widgets/responsive_scrollable_card.dart';
 import 'package:vokki/src/constants/app_sizes.dart';
+import 'package:vokki/src/features/account/data/auth_repository.dart';
 import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_new_controller.dart';
+import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_text_record_notifier.dart';
 import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_text_scan_notifier.dart';
 import 'package:vokki/src/localization/string_hardcoded.dart';
 import 'package:vokki/src/routing/app_router.dart';
@@ -69,10 +71,15 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
     // only submit the form if validation passes
     if (_formKey.currentState!.validate()) {
       final controller = ref.read(flashCardNewControllerProvider.notifier);
+
+      final authRepository = ref.watch(authRepositoryProvider);
+
+      final user = authRepository.currentUser;
+
       final success = await controller.submit(
-        id: 'temp_id',
         word: word,
         translation: translation,
+        userId: user?.uid ?? '',
       );
       if (success) {
         widget.onCardInputAdded?.call();
@@ -97,6 +104,7 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
     final state = ref.watch(flashCardNewControllerProvider);
 
     _wordController.text = ref.watch(flashCardTextScanNotifierProvider);
+    _wordController.text = ref.watch(flashCardTextRecordNotifierProvider);
 
     if (_wordController.text != '') {
       final gemini = Gemini.instance;
@@ -154,10 +162,13 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.mic,
-                        size: Sizes.p40,
-                        color: Theme.of(context).disabledColor),
-                    onPressed: null,
+                    icon: const Icon(
+                      Icons.mic,
+                      size: Sizes.p40,
+                    ),
+                    onPressed: () => context.goNamed(
+                      AppRoute.flashCardTextRecord.name,
+                    ),
                   ),
                 ],
               ),

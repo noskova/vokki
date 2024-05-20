@@ -14,17 +14,17 @@ class FlashCardNewController extends _$FlashCardNewController {
 
   // TODO: add user id here
   Future<bool> submit({
-    required String id,
     required String word,
     required String translation,
+    required String userId,
   }) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _newCard(id, word, translation));
+    state = await AsyncValue.guard(() => _newCard(word, translation, userId));
     return state.hasError == false;
   }
 
-  Future<void> _newCard(String id, String word, String translation) async {
+  Future<void> _newCard(String word, String translation, String userId) async {
     final flashCardsRepository = ref.read(flashCardsRepositoryProvider);
-    return flashCardsRepository.createFlashCard(id, word, translation);
+    return flashCardsRepository.createFlashCard(word, translation, userId);
   }
 }

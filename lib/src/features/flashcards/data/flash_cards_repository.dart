@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:vokki/src/features/account/data/auth_repository.dart';
 import 'package:vokki/src/features/flashcards/domain/flash_card.dart';
 
 part 'flash_cards_repository.g.dart';
@@ -34,8 +35,29 @@ class FlashCardsRepository {
     return ref.snapshots().map((snapshot) => snapshot.data());
   }
 
+  Future<int> newFlashCardId() async {
+    QuerySnapshot querySnapshot =
+        await _firestore.collection(flashCardsPath()).get();
+
+    // Find the highest ID
+    int maxId = 0;
+    for (var doc in querySnapshot.docs) {
+      int docId = int.tryParse(doc.id) ?? 0;
+      if (docId > maxId) {
+        maxId = docId;
+      }
+    }
+
+    return maxId + 1;
+  }
+
   Future<void> createFlashCard(
-      FlashCardID id, String word, String translation) {
+    String word,
+    String translation,
+    String userId,
+  ) async {
+    final id = (await newFlashCardId()).toString();
+
     return _firestore.doc(flashCardPath(id)).set(
       {
         'id': id,
@@ -43,7 +65,7 @@ class FlashCardsRepository {
         // TODO: add support for multiple translations
         'translation': translation,
         // TODO: add user id here
-        'uid': '',
+        'uid': userId,
       },
       // use merge: true to keep old fields (if any)
       SetOptions(merge: true),
