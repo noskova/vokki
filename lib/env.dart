@@ -20,4 +20,7 @@ final class Env {
 
   @EnviedField(varName: 'algoliaSearchKey', obfuscate: true)
   static final String algoliaSearchKey = _Env.algoliaSearchKey;
+
+  @EnviedField(varName: 'geminiKey', obfuscate: true)
+  static final String geminiKeyKey = _Env.geminiKeyKey;
 }

@@ -7,7 +7,7 @@ part of 'flash_card_text_scan_notifier.dart';
 // **************************************************************************
 
 String _$flashCardTextScanNotifierHash() =>
-    r'5fd25d144b710e013b98877edc29127d67885c3f';
+    r'5878eb115e94e8d046bdf7722085b00b382b7f7a';
 
 /// See also [FlashCardTextScanNotifier].
 @ProviderFor(FlashCardTextScanNotifier)

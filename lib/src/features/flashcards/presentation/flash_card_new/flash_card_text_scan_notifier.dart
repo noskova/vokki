@@ -15,11 +15,15 @@ class FlashCardTextScanNotifier extends _$FlashCardTextScanNotifier {
     try {
       final recognizedText = await textRecognizer.processImage(inputImage);
 
-      state = recognizedText.text;
+      updateState(recognizedText.text);
     } catch (e) {
-      state = '';
+      updateState('');
     } finally {
       textRecognizer.close();
     }
+  }
+
+  void updateState(String text) {
+    state = text;
   }
 }

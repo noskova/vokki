@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vokki/src/common_widgets/async_value_widget.dart';
@@ -97,6 +98,20 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
 
     _wordController.text = ref.watch(flashCardTextScanNotifierProvider);
 
+    if (_wordController.text != '') {
+      final gemini = Gemini.instance;
+
+      try {
+        gemini
+            .text("Translate to Russian: ${_wordController.text}")
+            .then((value) {
+          _translationController.text = value?.output ?? '';
+        });
+      } catch (e) {
+        print(e);
+      }
+    }
+
     return ResponsiveScrollableCard(
       child: FocusScope(
         node: _node,
@@ -130,6 +145,24 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
               ),
 
               gapH8,
+              Wrap(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.document_scanner, size: Sizes.p40),
+                    onPressed: () => context.goNamed(
+                      AppRoute.flashCardTextScan.name,
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.mic,
+                        size: Sizes.p40,
+                        color: Theme.of(context).disabledColor),
+                    onPressed: null,
+                  ),
+                ],
+              ),
+
+              gapH8,
               TextFormField(
                 key: FlashCardNewScreen.translationKey,
                 controller: _translationController,
@@ -152,13 +185,7 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
                 ],
               ),
               gapH8,
-              IconButton(
-                icon: const Icon(Icons.document_scanner, size: Sizes.p40),
-                onPressed: () => context.goNamed(
-                  AppRoute.flashCardTextScan.name,
-                ),
-              ),
-              gapH8,
+
               PrimaryButton(
                 text: 'Submit'.hardcoded,
                 isLoading: state.isLoading,
