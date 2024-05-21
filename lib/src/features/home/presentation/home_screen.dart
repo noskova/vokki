@@ -44,7 +44,7 @@ class FlashCardsScreen extends ConsumerStatefulWidget {
 }
 
 class _FlashCardsScreenState extends ConsumerState<FlashCardsScreen> {
-  final PageController _pageController = PageController(viewportFraction: 0.88);
+  final PageController _pageController = PageController(viewportFraction: 0.76);
 
   @override
   void dispose() {
@@ -74,9 +74,25 @@ class _FlashCardsScreenState extends ConsumerState<FlashCardsScreen> {
       );
     }
 
-    return CarouselWidget(
-      pageController: _pageController,
-      flashCards: flashCards,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(Sizes.p16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Flashcards hunted: ${flashCards.length}'),
+              const Text('Learned: 100%'),
+            ],
+          ),
+        ),
+        gapH24,
+        CarouselWidget(
+          pageController: _pageController,
+          flashCards: flashCards,
+        )
+      ],
     );
   }
 }
@@ -109,7 +125,7 @@ class CarouselWidget extends StatelessWidget {
                 [],
           ),
         ),
-        const SizedBox(height: 10.0),
+        const SizedBox(height: Sizes.p12),
       ],
     );
   }
@@ -144,6 +160,8 @@ class _CarouselElementWidgetState extends State<CarouselElementWidget> {
   bool get isStopped => ttsState == TtsState.stopped;
   bool get isPaused => ttsState == TtsState.paused;
   bool get isContinued => ttsState == TtsState.continued;
+
+  bool showTranslation = false;
 
   @override
   initState() {
@@ -257,25 +275,26 @@ class _CarouselElementWidgetState extends State<CarouselElementWidget> {
     });
   }
 
+  void _showTranslation() {
+    setState(() {
+      showTranslation = !showTranslation;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
-          Radius.circular(8.0),
+          Radius.circular(Sizes.p8),
         ),
       ),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(Sizes.p16),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Text(
-                  widget._flashCard.word,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                gapH16,
                 IconButton(
                   icon: const Icon(Icons.volume_up_outlined, size: Sizes.p40),
                   onPressed: () {
@@ -283,12 +302,25 @@ class _CarouselElementWidgetState extends State<CarouselElementWidget> {
                   },
                 ),
                 gapH16,
+                Text(
+                  widget._flashCard.word,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                gapH16,
                 Wrap(
                   children: [
-                    PrimaryButton(
-                      onPressed: () {},
-                      text: 'Translation'.hardcoded,
-                    ),
+                    showTranslation
+                        ? TextButton(
+                            onPressed: () => _showTranslation(),
+                            child: Text(
+                              widget._flashCard.translation,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          )
+                        : PrimaryButton(
+                            text: 'Show translation'.hardcoded,
+                            onPressed: () => _showTranslation(),
+                          ),
                   ],
                 ),
               ],

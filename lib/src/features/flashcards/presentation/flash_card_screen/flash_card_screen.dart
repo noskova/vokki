@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vokki/src/common_widgets/alert_dialogs.dart';
 import 'package:vokki/src/common_widgets/async_value_widget.dart';
 import 'package:vokki/src/common_widgets/empty_placeholder_widget.dart';
+import 'package:vokki/src/common_widgets/primary_button.dart';
 import 'package:vokki/src/common_widgets/vokki_app_bar.dart';
 import 'package:vokki/src/common_widgets/responsive_center.dart';
 import 'package:vokki/src/common_widgets/responsive_two_columns_layout.dart';
 import 'package:vokki/src/constants/app_sizes.dart';
 import 'package:vokki/src/features/flashcards/data/flash_cards_repository.dart';
 import 'package:vokki/src/features/flashcards/domain/flash_card.dart';
+import 'package:vokki/src/features/flashcards/presentation/flash_card_screen/flash_card_screen_controller.dart';
 import 'package:vokki/src/localization/string_hardcoded.dart';
+import 'package:vokki/src/utils/async_value_ui.dart';
 
 /// Shows the product page for a given product ID.
 class FlashCardScreen extends StatelessWidget {
@@ -53,6 +57,12 @@ class FlashCardDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<AsyncValue>(
+      flashCardScreenControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
+    final state = ref.watch(flashCardScreenControllerProvider);
+
     return ResponsiveTwoColumnLayout(
       startContent: Card(
         child: Padding(
@@ -68,12 +78,32 @@ class FlashCardDetails extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Text(flashCard.word,
-              //     style: Theme.of(context).textTheme.titleLarge),
-              // gapH8,
-              Text(flashCard.translation,
-                  style: Theme.of(context).textTheme.bodySmall),
-              // Only show average if there is at least one rating
+              Text(
+                flashCard.translation,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              gapH32,
+              Center(
+                child: PrimaryButton(
+                  onPressed: state.isLoading
+                      ? null
+                      : () async {
+                          final delete = await showAlertDialog(
+                            context: context,
+                            title: 'Are you sure?'.hardcoded,
+                            cancelActionText: 'Cancel'.hardcoded,
+                            defaultActionText: 'Delete'.hardcoded,
+                          );
+                          if (delete == true) {
+                            await ref
+                                .read(
+                                    flashCardScreenControllerProvider.notifier)
+                                .delete(flashCard.id);
+                          }
+                        },
+                  text: 'Delete'.hardcoded,
+                ),
+              ),
             ],
           ),
         ),

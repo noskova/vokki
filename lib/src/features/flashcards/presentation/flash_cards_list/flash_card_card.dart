@@ -23,8 +23,10 @@ class FlashCardCard extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(flashCard.word,
-                  style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                flashCard.word,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ],
           ),
         ),
