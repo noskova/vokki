@@ -30,6 +30,7 @@ dependencies:
   permission_handler: ^11.3.1
   flutter_gemini: ^2.0.3
   speech_to_text: ^6.6.1
+  flutter_tts: ^4.0.2
 
 dev_dependencies:
   flutter_test:
