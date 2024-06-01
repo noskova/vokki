@@ -14,12 +14,9 @@ jobs:
       - run: echo "$GOOGLE_SERVICES_IOS_VOKKI" | base64 --decode > ios/Runner/GoogleService-Info.plist
       - run: echo "$GOOGLE_SERVICES_ANDROID_VOKKI" | base64 --decode > android/app/google-services.json
       - run:
-          name: Melos run difference tests
+          name: Run difference tests
           command: |
-            flutter pub global activate melos
-            export PATH="$PATH":"$HOME/.pub-cache/bin"
-            melos bootstrap
-            melos difftest
+            flutter test
 
   vokki_android_build:
     docker:
