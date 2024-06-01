@@ -334,5 +334,136 @@ class _FlashCardFutureProviderElement
   @override
   String get id => (origin as FlashCardFutureProvider).id;
 }
+
+String _$userNativeLanguageFutureHash() =>
+    r'c578ac97528b3e3bd24b48c1465e30f2c5c9896f';
+
+/// See also [userNativeLanguageFuture].
+@ProviderFor(userNativeLanguageFuture)
+const userNativeLanguageFutureProvider = UserNativeLanguageFutureFamily();
+
+/// See also [userNativeLanguageFuture].
+class UserNativeLanguageFutureFamily extends Family<AsyncValue<String?>> {
+  /// See also [userNativeLanguageFuture].
+  const UserNativeLanguageFutureFamily();
+
+  /// See also [userNativeLanguageFuture].
+  UserNativeLanguageFutureProvider call(
+    String userId,
+  ) {
+    return UserNativeLanguageFutureProvider(
+      userId,
+    );
+  }
+
+  @override
+  UserNativeLanguageFutureProvider getProviderOverride(
+    covariant UserNativeLanguageFutureProvider provider,
+  ) {
+    return call(
+      provider.userId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'userNativeLanguageFutureProvider';
+}
+
+/// See also [userNativeLanguageFuture].
+class UserNativeLanguageFutureProvider
+    extends AutoDisposeFutureProvider<String?> {
+  /// See also [userNativeLanguageFuture].
+  UserNativeLanguageFutureProvider(
+    String userId,
+  ) : this._internal(
+          (ref) => userNativeLanguageFuture(
+            ref as UserNativeLanguageFutureRef,
+            userId,
+          ),
+          from: userNativeLanguageFutureProvider,
+          name: r'userNativeLanguageFutureProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$userNativeLanguageFutureHash,
+          dependencies: UserNativeLanguageFutureFamily._dependencies,
+          allTransitiveDependencies:
+              UserNativeLanguageFutureFamily._allTransitiveDependencies,
+          userId: userId,
+        );
+
+  UserNativeLanguageFutureProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.userId,
+  }) : super.internal();
+
+  final String userId;
+
+  @override
+  Override overrideWith(
+    FutureOr<String?> Function(UserNativeLanguageFutureRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: UserNativeLanguageFutureProvider._internal(
+        (ref) => create(ref as UserNativeLanguageFutureRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        userId: userId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<String?> createElement() {
+    return _UserNativeLanguageFutureProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is UserNativeLanguageFutureProvider && other.userId == userId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, userId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin UserNativeLanguageFutureRef on AutoDisposeFutureProviderRef<String?> {
+  /// The parameter `userId` of this provider.
+  String get userId;
+}
+
+class _UserNativeLanguageFutureProviderElement
+    extends AutoDisposeFutureProviderElement<String?>
+    with UserNativeLanguageFutureRef {
+  _UserNativeLanguageFutureProviderElement(super.provider);
+
+  @override
+  String get userId => (origin as UserNativeLanguageFutureProvider).userId;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

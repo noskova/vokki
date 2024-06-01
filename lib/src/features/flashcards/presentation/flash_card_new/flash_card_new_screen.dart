@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vokki/src/common_widgets/async_value_widget.dart';
 import 'package:vokki/src/common_widgets/primary_button.dart';
 import 'package:vokki/src/common_widgets/responsive_scrollable_card.dart';
 import 'package:vokki/src/constants/app_sizes.dart';
@@ -227,10 +226,13 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
               ),
               gapH8,
               PrimaryButton(
-                text: 'Submit'.hardcoded,
-                isLoading: state.isLoading,
-                onPressed: state.isLoading ? null : () => _submit(),
-              ),
+                  text: 'Submit'.hardcoded,
+                  isLoading: state.isLoading,
+                  onPressed: state.isLoading
+                      ? null
+                      : () {
+                          _submit();
+                        }),
             ],
           ),
         ),

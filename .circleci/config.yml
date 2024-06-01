@@ -1,0 +1,111 @@
+version: 2.1
+
+jobs:
+  flutter_tests_and_scans:
+    docker:
+      - image: ghcr.io/cirruslabs/flutter:3.22.1
+    steps:
+      - checkout
+      - run:
+          name: Flutter doctor
+          command: flutter doctor -v
+      - run: echo "$FIREBASE_OPTIONS_VOKKI" | base64 --decode > lib/firebase_options.dart
+      - run: echo "$FIREBASE_APP_ID_VOKKI" | base64 --decode > ios/firebase_app_id_file.json
+      - run: echo "$GOOGLE_SERVICES_IOS_VOKKI" | base64 --decode > ios/Runner/GoogleService-Info.plist
+      - run: echo "$GOOGLE_SERVICES_ANDROID_VOKKI" | base64 --decode > android/app/google-services.json
+      - run:
+          name: Melos run difference tests
+          command: |
+            flutter pub global activate melos
+            export PATH="$PATH":"$HOME/.pub-cache/bin"
+            melos bootstrap
+            melos difftest
+
+  vokki_android_build:
+    docker:
+      - image: ghcr.io/cirruslabs/flutter:3.22.1
+    steps:
+      - checkout
+      - run: echo "$FIREBASE_OPTIONS_KURS_MAIN" | base64 --decode > lib/firebase_options.dart
+      - run: echo "$GOOGLE_SERVICES_ANDROID_KURS_MAIN" | base64 --decode > android/app/google-services.json
+      - run: echo "$PLAY_STORE_UPLOAD_KEY_VOKKI" | base64 --decode > android/fastlane/key.jks
+      - run: echo "$PLAY_STORE_UPLOAD_KEY_INFO_VOKKI" | base64 --decode > android/key.properties
+      - run:
+          name: Flutter doctor
+          command: flutter doctor -v
+      - run:
+          name: Update Gemfile.lock
+          command: rm Gemfile.lock && bundle install
+          working_directory: android
+      - run:
+          name: Create and deploy Android build through FastLane
+          working_directory: android
+          command: bundle exec fastlane beta
+      - store_artifacts:
+          path: build/app/outputs/bundle/release/app-release.aab
+
+  vokki_ios_build:
+    macos:
+      xcode: "15.4.0"
+    resource_class: macos.m1.medium.gen1
+    steps:
+      - checkout
+      - run: echo "$FIREBASE_OPTIONS_VOKKI" | base64 --decode > lib/firebase_options.dart
+      - run: echo "$FIREBASE_APP_ID_VOKKI" | base64 --decode > ios/firebase_app_id_file.json
+      - run: echo "$GOOGLE_SERVICES_IOS_VOKKI" | base64 --decode > ios/Runner/GoogleService-Info.plist
+      - run:
+          name: Download Flutter SDK
+          command: curl -o flutter_sdk.zip https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.22.1-stable.zip
+      - run:
+          name: Unzip Flutter
+          command: unzip flutter_sdk.zip
+      - run:
+          name: Install the latest version of cocoapods
+          command: gem install cocoapods --user-install
+      - run:
+          name: Update Gemfile.lock
+          command: rm Gemfile.lock && bundle install
+          working_directory: ios
+      - run:
+          command: /Users/distiller/project/flutter/bin/flutter config --no-analytics && /Users/distiller/project/flutter/bin/flutter pub get
+      - run:
+          command: bundle exec pod install
+          working_directory: ios
+      - run:
+          name: Flutter doctor
+          command: /Users/distiller/project/flutter/bin/flutter doctor -v
+      - run: softwareupdate --install-rosetta --agree-to-license
+      - run:
+          name: Build ios archive
+          no_output_timeout: 30m
+          command: /Users/distiller/project/flutter/bin/flutter build ios --release --no-codesign
+      - run:
+          name: Fastlane install
+          command: bundle install | bundle update fastlane
+          working_directory: ios
+      - run:
+          name: Create and deploy iOS build through FastLane
+          command: |
+            git clone https://github.com/RobotsAndPencils/xcodes 
+            cd xcodes && make install
+            cd .. && bundle exec fastlane ios beta
+          working_directory: ios
+      - store_artifacts:
+          path: /Users/distiller/Library/Logs/gym/Runner-Runner.log
+
+workflows:
+  build-test-deploy:
+    jobs:
+      - flutter_tests_and_scans
+      - vokki_android_build:
+          requires:
+            - flutter_tests_and_scans
+          filters:
+            branches:
+              only: build/android
+      - vokki_ios_build:
+          requires:
+            - flutter_tests_and_scans
+          filters:
+            branches:
+              only: build/ios

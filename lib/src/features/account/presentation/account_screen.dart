@@ -25,6 +25,7 @@ class AccountScreen extends ConsumerWidget {
       body: Column(
         children: [
           const UserDataList(),
+          const SelectLanguage(),
           Center(
             child: ElevatedButton(
               onPressed: state.isLoading
@@ -130,4 +131,42 @@ class EmailVerificationWidget extends ConsumerWidget {
       );
     }
   }
+}
+
+class SelectLanguage extends ConsumerWidget {
+  const SelectLanguage({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<String> languages = ['Spanish', 'Russian'];
+
+    return ListTile(
+      title: Text('Select your native language'.hardcoded),
+      subtitle: Text('Select language'.hardcoded),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return _languageList(languages: languages);
+          },
+        );
+      },
+    );
+  }
+}
+
+Widget _languageList({required List<String> languages}) {
+  return ListView.builder(
+    shrinkWrap: true,
+    itemCount: languages.length,
+    itemBuilder: (context, index) {
+      return ListTile(
+        title: Text(languages[index]),
+        onTap: () {
+          Navigator.pop(context);
+        },
+      );
+    },
+  );
 }

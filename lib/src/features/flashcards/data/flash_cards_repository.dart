@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vokki/src/features/account/data/auth_repository.dart';
 import 'package:vokki/src/features/flashcards/domain/flash_card.dart';
+import 'package:vokki/src/features/flashcards/domain/native_language.dart';
 
 part 'flash_cards_repository.g.dart';
 
@@ -12,6 +13,8 @@ class FlashCardsRepository {
   static String flashCardsPath() => 'flash_cards';
   static String flashCardPath(FlashCardID id) => 'flash_cards/$id';
 
+  static String nativeLanguagePath() => 'user_native_language';
+
   Future<List<FlashCard>> fetchFlashCardsList() async {
     final ref = _flashCardsRef();
     final snapshot = await ref.get();
@@ -20,6 +23,7 @@ class FlashCardsRepository {
 
   Stream<List<FlashCard>> watchFlashCardsList() {
     final ref = _flashCardsRef();
+
     return ref.snapshots().map((snapshot) =>
         snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
   }
@@ -28,6 +32,21 @@ class FlashCardsRepository {
     final ref = _flashCardRef(id);
     final snapshot = await ref.get();
     return snapshot.data();
+  }
+
+  Future<String?> fetchUserNativeLanguage(String uid) async {
+    final ref = _nativeLanguageRef();
+    final snapshot = await ref.get();
+
+    final language = snapshot.docs.isNotEmpty
+        ? snapshot.docs
+            .map((element) => element.data())
+            .firstWhere((element) => element.uid == uid)
+            .language
+            .toString()
+        : null;
+
+    return language;
   }
 
   Stream<FlashCard?> watchFlashCard(FlashCardID id) {
@@ -95,6 +114,13 @@ class FlashCardsRepository {
       )
       .orderBy('id');
 
+  Query<NativeLanguage> _nativeLanguageRef() =>
+      _firestore.collection(nativeLanguagePath()).withConverter(
+            fromFirestore: (doc, _) => NativeLanguage.fromMap(doc.data()!),
+            toFirestore: (NativeLanguage nativeLanguage, options) =>
+                nativeLanguage.toMap(),
+          );
+
   // * Temporary search implementation.
   // * Note: this is quite inefficient as it pulls the entire product list
   // * and then filters the data on the client
@@ -136,4 +162,11 @@ Stream<FlashCard?> flashCardsStream(FlashCardsStreamRef ref, FlashCardID id) {
 Future<FlashCard?> flashCardFuture(FlashCardFutureRef ref, FlashCardID id) {
   final flashCardsRepository = ref.watch(flashCardsRepositoryProvider);
   return flashCardsRepository.fetchFlashCard(id);
+}
+
+@riverpod
+Future<String?> userNativeLanguageFuture(
+    UserNativeLanguageFutureRef ref, String userId) {
+  final flashCardsRepository = ref.watch(flashCardsRepositoryProvider);
+  return flashCardsRepository.fetchUserNativeLanguage(userId);
 }

@@ -74,8 +74,7 @@ class _FlashCardsScreenState extends ConsumerState<FlashCardsScreen> {
       );
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
       children: [
         Padding(
           padding: const EdgeInsets.all(Sizes.p16),
