@@ -1,0 +1,1 @@
+Adding flashcards: manually, by voice, by text scanning. Flashcards search. Flashcard page: showing phrase, phrase pronunciation, showing phrase translation.
