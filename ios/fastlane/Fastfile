@@ -14,7 +14,7 @@ platform :ios do
     build_number = 4 + number_of_commits()
     match(
       type: "appstore", 
-      git_url: "git@github.com:noskova/kurs-fastlane-match-certificates.git",
+      git_url: "git@github.com:noskova/vokki-fastlane-match-certificates.git",
       force_for_new_devices: true,
       verbose: true,
     )

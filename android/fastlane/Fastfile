@@ -1,7 +1,7 @@
 default_platform(:android)
 
 platform :android do
-  desc "Deploy a new beta build to Google Play"
+  desc "Deploy a new build to Google Play internal track"
   lane :beta do
     build_number = 4 + number_of_commits()
     Dir.chdir "../.." do
