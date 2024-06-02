@@ -1,0 +1,8 @@
+app_identifier("net.vokki.app") # The bundle identifier of your app
+apple_id("sofya.noskova@gmail.com") # Your Apple email address
+
+itc_team_id("120809912") # App Store Connect Team ID
+team_id("94Z85JT5CS") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

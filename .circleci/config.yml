@@ -9,12 +9,14 @@ jobs:
       - run:
           name: Flutter doctor
           command: flutter doctor -v
-      - run: echo "$FIREBASE_OPTIONS_VOKKI" | base64 --decode > lib/firebase_options.dart
-      - run: echo "$FIREBASE_APP_ID_VOKKI" | base64 --decode > ios/firebase_app_id_file.json
-      - run: echo "$GOOGLE_SERVICES_IOS_VOKKI" | base64 --decode > ios/Runner/GoogleService-Info.plist
-      - run: echo "$GOOGLE_SERVICES_ANDROID_VOKKI" | base64 --decode > android/app/google-services.json
+      - run: echo "$FIREBASE_OPTIONS" | base64 --decode > lib/firebase_options.dart
+      - run: echo "$FIREBASE_APP_ID" | base64 --decode > ios/firebase_app_id_file.json
+      - run: echo "$FIREBASE_JSON" | base64 --decode > firebase.json
+      - run: echo "$GOOGLE_SERVICES_IOS" | base64 --decode > ios/Runner/GoogleService-Info.plist
+      - run: echo "$GOOGLE_SERVICES_ANDROID" | base64 --decode > android/app/google-services.json
+      - run: echo "ENV" | base64 --decode > .env
       - run:
-          name: Run difference tests
+          name: Run tests
           command: |
             flutter test
 
@@ -23,10 +25,12 @@ jobs:
       - image: ghcr.io/cirruslabs/flutter:3.22.1
     steps:
       - checkout
-      - run: echo "$FIREBASE_OPTIONS_KURS_MAIN" | base64 --decode > lib/firebase_options.dart
-      - run: echo "$GOOGLE_SERVICES_ANDROID_KURS_MAIN" | base64 --decode > android/app/google-services.json
-      - run: echo "$PLAY_STORE_UPLOAD_KEY_VOKKI" | base64 --decode > android/fastlane/key.jks
-      - run: echo "$PLAY_STORE_UPLOAD_KEY_INFO_VOKKI" | base64 --decode > android/key.properties
+      - run: echo "$FIREBASE_OPTIONS" | base64 --decode > lib/firebase_options.dart
+      - run: echo "$FIREBASE_JSON" | base64 --decode > firebase.json
+      - run: echo "$GOOGLE_SERVICES_ANDROID" | base64 --decode > android/app/google-services.json
+      - run: echo "$PLAY_STORE_UPLOAD_KEY" | base64 --decode > android/fastlane/vokki.jks
+      - run: echo "$PLAY_STORE_UPLOAD_KEY_INFO" | base64 --decode > android/key.properties
+      - run: echo "ENV" | base64 --decode > .env
       - run:
           name: Flutter doctor
           command: flutter doctor -v
@@ -47,9 +51,11 @@ jobs:
     resource_class: macos.m1.medium.gen1
     steps:
       - checkout
-      - run: echo "$FIREBASE_OPTIONS_VOKKI" | base64 --decode > lib/firebase_options.dart
-      - run: echo "$FIREBASE_APP_ID_VOKKI" | base64 --decode > ios/firebase_app_id_file.json
-      - run: echo "$GOOGLE_SERVICES_IOS_VOKKI" | base64 --decode > ios/Runner/GoogleService-Info.plist
+      - run: echo "$FIREBASE_OPTIONS" | base64 --decode > lib/firebase_options.dart
+      - run: echo "$FIREBASE_APP_ID" | base64 --decode > ios/firebase_app_id_file.json
+      - run: echo "$FIREBASE_JSON" | base64 --decode > firebase.json
+      - run: echo "$GOOGLE_SERVICES_IOS" | base64 --decode > ios/Runner/GoogleService-Info.plist
+      - run: echo "ENV" | base64 --decode > .env
       - run:
           name: Download Flutter SDK
           command: curl -o flutter_sdk.zip https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.22.1-stable.zip

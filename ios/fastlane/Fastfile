@@ -1,0 +1,45 @@
+default_platform(:ios)
+xcodes(
+  version: '15.4.0',
+  select_for_current_build_only: true,
+)
+
+before_all do
+  setup_circle_ci
+end
+
+platform :ios do
+  desc “Push a new beta build to TestFlight”
+  lane :beta do
+    build_number = 4 + number_of_commits()
+    match(
+      type: "appstore", 
+      git_url: "git@github.com:noskova/kurs-fastlane-match-certificates.git",
+      force_for_new_devices: true,
+      verbose: true,
+    )
+    increment_build_number({
+      build_number: build_number
+    })
+    build_app(workspace: “Runner.xcworkspace”, scheme: “Runner”)
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      itc_provider: "94Z85JT5CS",
+      changelog: File.read("../../changelog.txt")
+    )
+  end
+end
+
+
+# to refgister new ios device
+# uncomment code below 
+# update list of devices you want to register
+# then run in console in ios folder:
+# fastlane run register_devices 
+# then run 
+# fastlane match development    
+# register_devices(
+#   devices: {
+#     'Edelweiss\’s iPhone 15' => '00008120-000A2CC90C92201E'
+#   }
+# )

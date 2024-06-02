@@ -1,0 +1,16 @@
+default_platform(:android)
+
+platform :android do
+  desc "Deploy a new beta build to Google Play"
+  lane :beta do
+    build_number = 4 + number_of_commits()
+    Dir.chdir "../.." do
+      sh("flutter", "build", "appbundle", "--build-number=#{build_number}")
+    end
+    upload_to_play_store(
+      track: 'internal', 
+      track_promote_to: 'internal',
+      aab: '../build/app/outputs/bundle/release/app-release.aab', 
+      json_key_data: ENV['SUPPLY_JSON_KEY_DATA'])
+  end
+end

@@ -1,6 +1,5 @@
 name: vokki
 description: "App for building personal vocabulary with fun"
-
 publish_to: "none"
 
 version: 1.0.0+1
