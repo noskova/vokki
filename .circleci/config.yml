@@ -105,10 +105,10 @@ workflows:
             - flutter_tests_and_scans
           filters:
             branches:
-              only: build/android
+              only: build
       - vokki_ios_build:
           requires:
             - flutter_tests_and_scans
           filters:
             branches:
-              only: build/ios
+              only: build
