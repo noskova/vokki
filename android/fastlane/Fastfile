@@ -12,5 +12,6 @@ platform :android do
       track_promote_to: 'internal',
       aab: '../build/app/outputs/bundle/release/app-release.aab', 
       json_key_data: ENV['SUPPLY_JSON_KEY_DATA'])
+      release_status: 'draft'
   end
 end
