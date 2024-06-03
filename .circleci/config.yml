@@ -29,7 +29,7 @@ jobs:
       - run: echo "$FIREBASE_JSON" | base64 --decode > firebase.json
       - run: echo "$GOOGLE_SERVICES_ANDROID" | base64 --decode > android/app/google-services.json
       - run: echo "$PLAY_STORE_UPLOAD_KEY" | base64 --decode > android/fastlane/vokki.jks
-      - run: echo "$PLAY_STORE_UPLOAD_KEY_INFO" | base64 --decode > android/key.properties
+      - run: echo "$PLAY_STORE_UPLOAD_KEY_INFO" | base64 --decode > android/app/key.properties
       - run: echo "$ENV" | base64 --decode > .env
       - run:
           name: Flutter doctor
