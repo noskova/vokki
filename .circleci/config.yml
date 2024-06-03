@@ -36,7 +36,7 @@ jobs:
           command: flutter doctor -v
       - run:
           name: Generate env.g.dart
-          command: dart run build_runner build
+          command: dart run build_runner build --delete-conflicting-outputs
       - run:
           name: Update Gemfile.lock
           command: rm Gemfile.lock && bundle install
@@ -76,7 +76,7 @@ jobs:
           command: /Users/distiller/project/flutter/bin/flutter config --no-analytics && /Users/distiller/project/flutter/bin/flutter pub get
       - run:
           name: Generate env.g.dart
-          command: /Users/distiller/project/flutter/bin/dart run build_runner build
+          command: /Users/distiller/project/flutter/bin/dart run build_runner build --delete-conflicting-outputs
       - run:
           command: bundle exec pod install
           working_directory: ios
