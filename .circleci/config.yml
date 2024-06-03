@@ -35,6 +35,9 @@ jobs:
           name: Flutter doctor
           command: flutter doctor -v
       - run:
+          name: Generate env.g.dart
+          command: dart run build_runner build
+      - run:
           name: Update Gemfile.lock
           command: rm Gemfile.lock && bundle install
           working_directory: android
@@ -58,7 +61,7 @@ jobs:
       - run: echo "$ENV" | base64 --decode > .env
       - run:
           name: Download Flutter SDK
-          command: curl -o flutter_sdk.zip https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.22.1-stable.zip
+          command: curl -o flutter_sdk.zip https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.22.1-stable.zip
       - run:
           name: Unzip Flutter
           command: unzip flutter_sdk.zip
@@ -71,6 +74,9 @@ jobs:
           working_directory: ios
       - run:
           command: /Users/distiller/project/flutter/bin/flutter config --no-analytics && /Users/distiller/project/flutter/bin/flutter pub get
+      - run:
+          name: Generate env.g.dart
+          command: /Users/distiller/project/flutter/bin/dart run build_runner build
       - run:
           command: bundle exec pod install
           working_directory: ios
