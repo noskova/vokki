@@ -100,7 +100,8 @@ jobs:
             cd .. && bundle exec fastlane ios beta
           working_directory: ios
       - store_artifacts:
-          path: /Users/distiller/Library/Logs/gym/Runner-Runner.log
+          # path: /Users/distiller/Library/Logs/gym/Runner-Runner.log
+          path: /Users/distiller/project/ios/fastlane/README.md
 
 workflows:
   build-test-deploy:
