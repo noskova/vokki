@@ -83,9 +83,7 @@ class FlashCardsRepository {
       {
         'id': id,
         'word': word,
-        // TODO: add support for multiple translations
         'translation': translation,
-        // TODO: add user id here
         'uid': userId,
       },
       // use merge: true to keep old fields (if any)
@@ -116,7 +114,7 @@ class FlashCardsRepository {
           fromFirestore: (doc, _) => FlashCard.fromMap(doc.data()!),
           toFirestore: (FlashCard flashCard, options) => flashCard.toMap(),
         )
-        .orderBy('id');
+        .orderBy('id', descending: true);
 
     // Conditionally add the 'where' clause if uid is not null
     if (uid != null) {

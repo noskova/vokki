@@ -25,7 +25,7 @@ class AccountScreen extends ConsumerWidget {
       body: Column(
         children: [
           const UserDataList(),
-          const SelectLanguage(),
+          // const SelectLanguage(),
           Center(
             child: ElevatedButton(
               onPressed: state.isLoading

@@ -69,7 +69,7 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
 
     try {
       gemini
-          .text("Translate to Russian: ${_wordController.text}")
+          .text("Translate to Spanish: ${_wordController.text}")
           .then((value) {
         _translationController.text = value?.output ?? '';
       });
@@ -95,6 +95,9 @@ class _FlashCardTextInputState extends ConsumerState<FlashCardTextInput> {
       );
       if (success) {
         widget.onCardInputAdded?.call();
+      }
+      if (context.mounted) {
+        Navigator.of(context).pop();
       }
     }
   }
