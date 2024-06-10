@@ -48,3 +48,5 @@ app.*.map.json
 .env
 env.g.dart
 firebase.json
+
+SUPPLY_JSON_KEY_DATA.json

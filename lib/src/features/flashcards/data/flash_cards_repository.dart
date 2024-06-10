@@ -15,14 +15,16 @@ class FlashCardsRepository {
 
   static String nativeLanguagePath() => 'user_native_language';
 
-  Future<List<FlashCard>> fetchFlashCardsList() async {
-    final ref = _flashCardsRef();
+  Future<List<FlashCard>> fetchFlashCardsList(
+    String? userId,
+  ) async {
+    final ref = _flashCardsRef(userId);
     final snapshot = await ref.get();
     return snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList();
   }
 
-  Stream<List<FlashCard>> watchFlashCardsList() {
-    final ref = _flashCardsRef();
+  Stream<List<FlashCard>> watchFlashCardsList(String? uid) {
+    final ref = _flashCardsRef(uid);
 
     return ref.snapshots().map((snapshot) =>
         snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
@@ -81,9 +83,7 @@ class FlashCardsRepository {
       {
         'id': id,
         'word': word,
-        // TODO: add support for multiple translations
         'translation': translation,
-        // TODO: add user id here
         'uid': userId,
       },
       // use merge: true to keep old fields (if any)
@@ -106,13 +106,23 @@ class FlashCardsRepository {
             toFirestore: (FlashCard flashCard, options) => flashCard.toMap(),
           );
 
-  Query<FlashCard> _flashCardsRef() => _firestore
-      .collection(flashCardsPath())
-      .withConverter(
-        fromFirestore: (doc, _) => FlashCard.fromMap(doc.data()!),
-        toFirestore: (FlashCard flashCard, options) => flashCard.toMap(),
-      )
-      .orderBy('id');
+  Query<FlashCard> _flashCardsRef(String? uid) {
+    // Start with the base query
+    var query = _firestore
+        .collection(flashCardsPath())
+        .withConverter<FlashCard>(
+          fromFirestore: (doc, _) => FlashCard.fromMap(doc.data()!),
+          toFirestore: (FlashCard flashCard, options) => flashCard.toMap(),
+        )
+        .orderBy('id', descending: true);
+
+    // Conditionally add the 'where' clause if uid is not null
+    if (uid != null) {
+      query = query.where('uid', isEqualTo: uid);
+    }
+
+    return query;
+  }
 
   Query<NativeLanguage> _nativeLanguageRef() =>
       _firestore.collection(nativeLanguagePath()).withConverter(
@@ -124,9 +134,9 @@ class FlashCardsRepository {
   // * Temporary search implementation.
   // * Note: this is quite inefficient as it pulls the entire product list
   // * and then filters the data on the client
-  Future<List<FlashCard>> search(String query) async {
+  Future<List<FlashCard>> search(String query, String? uid) async {
     // 1. Get all products from Firestore
-    final flashCardsList = await fetchFlashCardsList();
+    final flashCardsList = await fetchFlashCardsList(uid);
     // 2. Perform client-side filtering
     return flashCardsList
         .where((flashCard) =>
@@ -135,21 +145,35 @@ class FlashCardsRepository {
   }
 }
 
+final firestoreProvider = Provider<FirebaseFirestore>((ref) {
+  return FirebaseFirestore.instance
+    ..settings = const Settings(persistenceEnabled: false);
+});
+
 @Riverpod(keepAlive: true)
 FlashCardsRepository flashCardsRepository(FlashCardsRepositoryRef ref) {
-  return FlashCardsRepository(FirebaseFirestore.instance);
+  final firestore = ref.watch(firestoreProvider);
+  return FlashCardsRepository(firestore);
 }
 
 @riverpod
 Stream<List<FlashCard>> flashCardsListStream(FlashCardsListStreamRef ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+
+  final user = authRepository.currentUser;
+
   final flashCardsRepository = ref.watch(flashCardsRepositoryProvider);
-  return flashCardsRepository.watchFlashCardsList();
+  return flashCardsRepository.watchFlashCardsList(user?.uid);
 }
 
 @riverpod
 Future<List<FlashCard>> flashCardsListFuture(FlashCardsListFutureRef ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+
+  final user = authRepository.currentUser;
+
   final flashCardsRepository = ref.watch(flashCardsRepositoryProvider);
-  return flashCardsRepository.fetchFlashCardsList();
+  return flashCardsRepository.fetchFlashCardsList(user?.uid);
 }
 
 @riverpod

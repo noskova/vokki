@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:vokki/src/features/account/data/auth_repository.dart';
 import 'package:vokki/src/features/flashcards/data/flash_cards_search_repository.dart';
 import 'package:vokki/src/features/flashcards/domain/flash_card.dart';
 
@@ -46,6 +47,9 @@ class FlashCardsSearchQueryNotifier extends _$FlashCardsSearchQueryNotifier {
 @riverpod
 Future<List<FlashCard>> flashCardsSearchResults(
     FlashCardsSearchResultsRef ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+
+  final user = authRepository.currentUser;
   final searchQuery = ref.watch(flashCardsSearchQueryNotifierProvider);
-  return ref.watch(flashCardsListSearchProvider(searchQuery).future);
+  return ref.watch(flashCardsListSearchProvider(searchQuery, user?.uid).future);
 }

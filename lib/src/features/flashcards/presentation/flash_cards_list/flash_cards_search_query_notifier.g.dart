@@ -7,7 +7,7 @@ part of 'flash_cards_search_query_notifier.dart';
 // **************************************************************************
 
 String _$flashCardsSearchResultsHash() =>
-    r'40933c6344191733a14efe20e681af2493cde44c';
+    r'4070ef72d9cb942b1ebe02427ae44216631a4942';
 
 /// A provider that returns the search results for the current search query
 ///

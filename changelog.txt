@@ -1,1 +1,1 @@
-Adding flashcards: manually, by voice, by text scanning. Flashcards search. Flashcard page: showing phrase, phrase pronunciation, showing phrase translation.
+Register, sign in, sign out. Adding flashcards: manually, by voice, by text scanning. Flashcards search. Flash card delete. Flashcard page: showing phrase, phrase pronunciation, showing phrase translation. English/Spanish by default.

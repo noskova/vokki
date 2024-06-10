@@ -25,7 +25,7 @@ class AccountScreen extends ConsumerWidget {
       body: Column(
         children: [
           const UserDataList(),
-          const SelectLanguage(),
+          // const SelectLanguage(),
           Center(
             child: ElevatedButton(
               onPressed: state.isLoading
@@ -35,7 +35,7 @@ class AccountScreen extends ConsumerWidget {
                         context: context,
                         title: 'Are you sure?'.hardcoded,
                         cancelActionText: 'Cancel'.hardcoded,
-                        defaultActionText: 'Logout'.hardcoded,
+                        defaultActionText: 'Sign out'.hardcoded,
                       );
                       if (signOut == true) {
                         await ref
