@@ -10,7 +10,6 @@ platform :android do
     upload_to_play_store(
       track: 'internal', 
       track_promote_to: 'internal',
-      release_status: 'draft',
       aab: '../build/app/outputs/bundle/release/app-release.aab', 
       json_key_data: ENV['SUPPLY_JSON_KEY_DATA'])
   end
