@@ -35,7 +35,7 @@ class AccountScreen extends ConsumerWidget {
                         context: context,
                         title: 'Are you sure?'.hardcoded,
                         cancelActionText: 'Cancel'.hardcoded,
-                        defaultActionText: 'Logout'.hardcoded,
+                        defaultActionText: 'Sign out'.hardcoded,
                       );
                       if (signOut == true) {
                         await ref

@@ -36,7 +36,7 @@ FlashCardsSearchRepository flashCardsSearchRepository(
 
 @riverpod
 Future<List<FlashCard>> flashCardsListSearch(
-    FlashCardsListSearchRef ref, String query) async {
+    FlashCardsListSearchRef ref, String query, String? uid) async {
   final link = ref.keepAlive();
   // a timer to be used by the callbacks below
   Timer? timer;
@@ -59,7 +59,7 @@ Future<List<FlashCard>> flashCardsListSearch(
   if (query.isNotEmpty) {
     // * if the query is not empty, use the search repository (one-time read)
     final searchRepository = ref.watch(flashCardsRepositoryProvider);
-    return searchRepository.search(query);
+    return searchRepository.search(query, uid);
   } else {
     // * otherwise, use the default stream provider (realtime data)
     return ref.watch(flashCardsListStreamProvider.future);

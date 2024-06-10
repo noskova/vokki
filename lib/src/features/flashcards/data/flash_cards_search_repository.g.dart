@@ -24,7 +24,7 @@ final flashCardsSearchRepositoryProvider =
 
 typedef FlashCardsSearchRepositoryRef = ProviderRef<FlashCardsSearchRepository>;
 String _$flashCardsListSearchHash() =>
-    r'c3f490cf10a1e33d23430fcf93e86a19e80fc321';
+    r'90c6dab970911761d793b290d51385d3db0f0128';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -59,9 +59,11 @@ class FlashCardsListSearchFamily extends Family<AsyncValue<List<FlashCard>>> {
   /// See also [flashCardsListSearch].
   FlashCardsListSearchProvider call(
     String query,
+    String? uid,
   ) {
     return FlashCardsListSearchProvider(
       query,
+      uid,
     );
   }
 
@@ -71,6 +73,7 @@ class FlashCardsListSearchFamily extends Family<AsyncValue<List<FlashCard>>> {
   ) {
     return call(
       provider.query,
+      provider.uid,
     );
   }
 
@@ -95,10 +98,12 @@ class FlashCardsListSearchProvider
   /// See also [flashCardsListSearch].
   FlashCardsListSearchProvider(
     String query,
+    String? uid,
   ) : this._internal(
           (ref) => flashCardsListSearch(
             ref as FlashCardsListSearchRef,
             query,
+            uid,
           ),
           from: flashCardsListSearchProvider,
           name: r'flashCardsListSearchProvider',
@@ -110,6 +115,7 @@ class FlashCardsListSearchProvider
           allTransitiveDependencies:
               FlashCardsListSearchFamily._allTransitiveDependencies,
           query: query,
+          uid: uid,
         );
 
   FlashCardsListSearchProvider._internal(
@@ -120,9 +126,11 @@ class FlashCardsListSearchProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.query,
+    required this.uid,
   }) : super.internal();
 
   final String query;
+  final String? uid;
 
   @override
   Override overrideWith(
@@ -138,6 +146,7 @@ class FlashCardsListSearchProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         query: query,
+        uid: uid,
       ),
     );
   }
@@ -149,13 +158,16 @@ class FlashCardsListSearchProvider
 
   @override
   bool operator ==(Object other) {
-    return other is FlashCardsListSearchProvider && other.query == query;
+    return other is FlashCardsListSearchProvider &&
+        other.query == query &&
+        other.uid == uid;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, query.hashCode);
+    hash = _SystemHash.combine(hash, uid.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -164,6 +176,9 @@ class FlashCardsListSearchProvider
 mixin FlashCardsListSearchRef on AutoDisposeFutureProviderRef<List<FlashCard>> {
   /// The parameter `query` of this provider.
   String get query;
+
+  /// The parameter `uid` of this provider.
+  String? get uid;
 }
 
 class _FlashCardsListSearchProviderElement
@@ -173,6 +188,8 @@ class _FlashCardsListSearchProviderElement
 
   @override
   String get query => (origin as FlashCardsListSearchProvider).query;
+  @override
+  String? get uid => (origin as FlashCardsListSearchProvider).uid;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

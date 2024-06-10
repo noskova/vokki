@@ -7,7 +7,7 @@ part of 'flash_cards_repository.dart';
 // **************************************************************************
 
 String _$flashCardsRepositoryHash() =>
-    r'6ca3694255b1c1e3f43be12b57d96f4ce633a605';
+    r'7d4cf962cb27111ed31f4ea83332c5e3af24fc4d';
 
 /// See also [flashCardsRepository].
 @ProviderFor(flashCardsRepository)
@@ -23,7 +23,7 @@ final flashCardsRepositoryProvider = Provider<FlashCardsRepository>.internal(
 
 typedef FlashCardsRepositoryRef = ProviderRef<FlashCardsRepository>;
 String _$flashCardsListStreamHash() =>
-    r'a582d0be9fd997c699e5c89dc50a144820ce835e';
+    r'0814d66743bc7ebc958a59dc91d259f037efa844';
 
 /// See also [flashCardsListStream].
 @ProviderFor(flashCardsListStream)
@@ -40,7 +40,7 @@ final flashCardsListStreamProvider =
 
 typedef FlashCardsListStreamRef = AutoDisposeStreamProviderRef<List<FlashCard>>;
 String _$flashCardsListFutureHash() =>
-    r'8bf7582efaa31ab5e44ca8d01b3bb893a653d1c9';
+    r'd91d565d76310f8244e90c30f864af9e258c2363';
 
 /// See also [flashCardsListFuture].
 @ProviderFor(flashCardsListFuture)
