@@ -96,15 +96,15 @@ class EmailVerificationWidget extends ConsumerWidget {
             onPressed: state.isLoading
                 ? null
                 : () async {
-                    final success = await ref
-                        .read(accountScreenControllerProvider.notifier)
-                        .sendEmailVerification(user);
-                    if (success && context.mounted) {
-                      showAlertDialog(
-                        context: context,
-                        title: 'Sent - now check your email'.hardcoded,
-                      );
-                    }
+                    // final success = await ref
+                    //     .read(accountScreenControllerProvider.notifier)
+                    //     .sendEmailVerification(user);
+                    // if (success && context.mounted) {
+                    //   showAlertDialog(
+                    //     context: context,
+                    //     title: 'Sent - now check your email'.hardcoded,
+                    //   );
+                    // }
                   },
             child: Text(
               'Verify email'.hardcoded,

@@ -13,18 +13,18 @@ class AccountScreenController extends _$AccountScreenController {
   }
 
   Future<void> signOut() async {
-    final authRepository = ref.read(authRepositoryProvider);
-    state = const AsyncValue<void>.loading();
-    state = await AsyncValue.guard(() async {
-      await authRepository.signOut();
-    });
+    // final authRepository = ref.read(authRepositoryProvider);
+    // state = const AsyncValue<void>.loading();
+    // state = await AsyncValue.guard(() async {
+    //   await authRepository.signOut();
+    // });
   }
 
-  Future<bool> sendEmailVerification(AppUser user) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() => user.sendEmailVerification());
-    return state.hasError == false;
-  }
+  // Future<bool> sendEmailVerification(AppUser user) async {
+  //   state = const AsyncLoading();
+  //   state = await AsyncValue.guard(() => user.sendEmailVerification());
+  //   return state.hasError == false;
+  // }
 
   Future<String?> usersNativeLanguage() async {
     final authRepository = ref.read(authRepositoryProvider);
