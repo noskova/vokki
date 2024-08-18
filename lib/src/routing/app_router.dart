@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vokki/src/features/account/data/auth_repository.dart';
 import 'package:vokki/src/features/account/presentation/account_screen.dart';
+import 'package:vokki/src/features/authentication/data/auth_repository.dart';
 import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_new_screen.dart';
 import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_text_record_screen.dart';
 import 'package:vokki/src/features/flashcards/presentation/flash_card_new/flash_card_text_scan_screen.dart';
@@ -16,14 +16,14 @@ import 'package:vokki/src/routing/go_router_refresh_stream.dart';
 part 'app_router.g.dart';
 
 enum AppRoute {
-  flashCard,
+  // flashCard,
   signIn,
   home,
-  account,
-  flashCardNew,
-  flashCardTextScan,
-  flashCardTextRecord,
-  flashCardsList,
+  // account,
+  // flashCardNew,
+  // flashCardTextScan,
+  // flashCardTextRecord,
+  // flashCardsList,
 }
 
 @Riverpod(keepAlive: true)
@@ -33,8 +33,7 @@ GoRouter goRouter(GoRouterRef ref) {
     initialLocation: '/',
     debugLogDiagnostics: false,
     redirect: (context, state) {
-      final isLoggedIn = authRepository.currentUser != null;
-      if (isLoggedIn) {
+      if (authRepository.currentAuthStatus == AuthStatus.authenticated) {
         if (state.uri.toString() == '/signIn') {
           return '/';
         }
@@ -49,47 +48,47 @@ GoRouter goRouter(GoRouterRef ref) {
         path: '/',
         name: AppRoute.home.name,
         builder: (context, state) => const HomeScreen(),
-        routes: [
-          GoRoute(
-            path: 'account',
-            name: AppRoute.account.name,
-            builder: (context, state) => const AccountScreen(),
-          ),
-          GoRoute(
-            path: 'flash-cards-list',
-            name: AppRoute.flashCardsList.name,
-            builder: (context, state) => const FlashCardsListScreen(),
-            routes: [
-              GoRoute(
-                path: 'flash-card/:id',
-                name: AppRoute.flashCard.name,
-                builder: (context, state) {
-                  final flashCardId = state.pathParameters['id']!;
-                  return FlashCardScreen(flashCardId: flashCardId);
-                },
-              ),
-            ],
-          ),
-          GoRoute(
-            path: 'flash-card-new',
-            name: AppRoute.flashCardNew.name,
-            pageBuilder: (context, state) => const MaterialPage(
-              fullscreenDialog: true,
-              child: FlashCardNewScreen(),
-            ),
-            routes: [
-              GoRoute(
-                path: 'flash-card-text-scan',
-                name: AppRoute.flashCardTextScan.name,
-                builder: (context, state) => const FlashCardTextScanScreen(),
-              ),
-              GoRoute(
-                path: 'flash-card-text-record',
-                name: AppRoute.flashCardTextRecord.name,
-                builder: (context, state) => const FlashCardTextRecordScreen(),
-              ),
-            ],
-          ),
+        routes: const [
+          // GoRoute(
+          //   path: 'account',
+          //   name: AppRoute.account.name,
+          //   builder: (context, state) => const AccountScreen(),
+          // ),
+          // GoRoute(
+          //   path: 'flash-cards-list',
+          //   name: AppRoute.flashCardsList.name,
+          //   builder: (context, state) => const FlashCardsListScreen(),
+          //   routes: [
+          //     GoRoute(
+          //       path: 'flash-card/:id',
+          //       name: AppRoute.flashCard.name,
+          //       builder: (context, state) {
+          //         final flashCardId = state.pathParameters['id']!;
+          //         return FlashCardScreen(flashCardId: flashCardId);
+          //       },
+          //     ),
+          //   ],
+          // ),
+          // GoRoute(
+          //   path: 'flash-card-new',
+          //   name: AppRoute.flashCardNew.name,
+          //   pageBuilder: (context, state) => const MaterialPage(
+          //     fullscreenDialog: true,
+          //     child: FlashCardNewScreen(),
+          //   ),
+          //   routes: [
+          //     GoRoute(
+          //       path: 'flash-card-text-scan',
+          //       name: AppRoute.flashCardTextScan.name,
+          //       builder: (context, state) => const FlashCardTextScanScreen(),
+          //     ),
+          //     GoRoute(
+          //       path: 'flash-card-text-record',
+          //       name: AppRoute.flashCardTextRecord.name,
+          //       builder: (context, state) => const FlashCardTextRecordScreen(),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
       GoRoute(

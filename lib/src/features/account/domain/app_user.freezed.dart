@@ -16,9 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AppUser {
-  String get uid => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  bool get emailVerified => throw _privateConstructorUsedError;
+  bool? get activated => throw _privateConstructorUsedError;
 
   /// Create a copy of AppUser
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +31,7 @@ abstract class $AppUserCopyWith<$Res> {
   factory $AppUserCopyWith(AppUser value, $Res Function(AppUser) then) =
       _$AppUserCopyWithImpl<$Res, AppUser>;
   @useResult
-  $Res call({String uid, String? email, bool emailVerified});
+  $Res call({int? id, String? email, bool? activated});
 }
 
 /// @nodoc
@@ -49,23 +49,23 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? uid = null,
+    Object? id = freezed,
     Object? email = freezed,
-    Object? emailVerified = null,
+    Object? activated = freezed,
   }) {
     return _then(_value.copyWith(
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      emailVerified: null == emailVerified
-          ? _value.emailVerified
-          : emailVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
+      activated: freezed == activated
+          ? _value.activated
+          : activated // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -77,7 +77,7 @@ abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       __$$AppUserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String uid, String? email, bool emailVerified});
+  $Res call({int? id, String? email, bool? activated});
 }
 
 /// @nodoc
@@ -93,23 +93,23 @@ class __$$AppUserImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? uid = null,
+    Object? id = freezed,
     Object? email = freezed,
-    Object? emailVerified = null,
+    Object? activated = freezed,
   }) {
     return _then(_$AppUserImpl(
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      emailVerified: null == emailVerified
-          ? _value.emailVerified
-          : emailVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
+      activated: freezed == activated
+          ? _value.activated
+          : activated // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -118,18 +118,18 @@ class __$$AppUserImplCopyWithImpl<$Res>
 
 class _$AppUserImpl implements _AppUser {
   const _$AppUserImpl(
-      {required this.uid, required this.email, required this.emailVerified});
+      {required this.id, required this.email, required this.activated});
 
   @override
-  final String uid;
+  final int? id;
   @override
   final String? email;
   @override
-  final bool emailVerified;
+  final bool? activated;
 
   @override
   String toString() {
-    return 'AppUser(uid: $uid, email: $email, emailVerified: $emailVerified)';
+    return 'AppUser(id: $id, email: $email, activated: $activated)';
   }
 
   @override
@@ -137,14 +137,14 @@ class _$AppUserImpl implements _AppUser {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AppUserImpl &&
-            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.emailVerified, emailVerified) ||
-                other.emailVerified == emailVerified));
+            (identical(other.activated, activated) ||
+                other.activated == activated));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, uid, email, emailVerified);
+  int get hashCode => Object.hash(runtimeType, id, email, activated);
 
   /// Create a copy of AppUser
   /// with the given fields replaced by the non-null parameter values.
@@ -157,16 +157,16 @@ class _$AppUserImpl implements _AppUser {
 
 abstract class _AppUser implements AppUser {
   const factory _AppUser(
-      {required final String uid,
+      {required final int? id,
       required final String? email,
-      required final bool emailVerified}) = _$AppUserImpl;
+      required final bool? activated}) = _$AppUserImpl;
 
   @override
-  String get uid;
+  int? get id;
   @override
   String? get email;
   @override
-  bool get emailVerified;
+  bool? get activated;
 
   /// Create a copy of AppUser
   /// with the given fields replaced by the non-null parameter values.

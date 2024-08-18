@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vokki/src/features/account/data/auth_repository.dart';
+import 'package:vokki/src/features/authentication/data/auth_repository.dart';
 import 'package:vokki/src/features/sign_in/email_password_sign_in_form_type.dart';
 
 part 'email_password_sign_in_controller.g.dart';
@@ -28,8 +28,10 @@ class EmailPasswordSignInController extends _$EmailPasswordSignInController {
     switch (formType) {
       case EmailPasswordSignInFormType.signIn:
         return authRepository.signInWithEmailAndPassword(email, password);
+      // TODO: implement confirm password field
       case EmailPasswordSignInFormType.register:
-        return authRepository.createUserWithEmailAndPassword(email, password);
+        return authRepository.createUserWithEmailAndPassword(
+            email, password, password);
     }
   }
 }
