@@ -1,33 +1,12 @@
-typedef UserID = String;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class AppUser {
-  const AppUser({
-    required this.uid,
-    required this.email,
-    this.emailVerified = false,
-  });
-  final UserID uid;
-  final String? email;
-  final bool emailVerified;
+part 'app_user.freezed.dart';
 
-  Future<void> sendEmailVerification() async {
-    // no-op - implemented by subclasses
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is AppUser &&
-        other.uid == uid &&
-        other.email == email &&
-        other.emailVerified == emailVerified;
-  }
-
-  @override
-  int get hashCode => uid.hashCode ^ email.hashCode ^ emailVerified.hashCode;
-
-  @override
-  String toString() =>
-      'AppUser(uid: $uid, email: $email, emailVerified: $emailVerified)';
+@freezed
+class AppUser with _$AppUser {
+  const factory AppUser({
+    required int? id,
+    required String? email,
+    required bool? activated,
+  }) = _AppUser;
 }

@@ -9,19 +9,19 @@ import 'package:vokki/src/app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  } catch (e) {
-    print('----------- Error initializing Firebase: $e');
-  }
+  // try {
+  //   await Firebase.initializeApp(
+  //     options: DefaultFirebaseOptions.currentPlatform,
+  //   );
+  // } catch (e) {
+  //   print('----------- Error initializing Firebase: $e');
+  // }
 
-  Gemini.init(apiKey: Env.geminiKeyKey);
+  // Gemini.init(apiKey: Env.geminiKeyKey);
 
   runApp(
     const ProviderScope(
-      child: MyApp(),
+      child: VokkiApp(),
     ),
   );
 }

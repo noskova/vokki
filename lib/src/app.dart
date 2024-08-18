@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vokki/src/routing/app_router.dart';
 import 'package:vokki/src/themes/vokki_themes.dart';
 
-class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+class VokkiApp extends ConsumerWidget {
+  const VokkiApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

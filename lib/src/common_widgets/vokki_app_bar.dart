@@ -12,29 +12,30 @@ class VokkiAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      leading: (showLogo ?? false)
-          ? Padding(
-              padding: const EdgeInsets.only(left: Sizes.p16),
-              child: Image.asset('lib/assets/images/vokki_logo.png'),
-            )
-          : null,
-      actions: [
-        //const Greeting(),
-        IconButton(
-          icon: const Icon(Icons.type_specimen, size: Sizes.p40),
-          onPressed: () => context.goNamed(
-            AppRoute.flashCardsList.name,
-          ),
-        ),
-        IconButton(
-          icon: const Icon(Icons.account_circle, size: Sizes.p40),
-          onPressed: () => context.goNamed(
-            AppRoute.account.name,
-          ),
-        ),
-      ],
-    );
+    return AppBar();
+    // return AppBar(
+    //   leading: (showLogo ?? false)
+    //       ? Padding(
+    //           padding: const EdgeInsets.only(left: Sizes.p16),
+    //           child: Image.asset('lib/assets/images/vokki_logo.png'),
+    //         )
+    //       : null,
+    //   actions: [
+    //     //const Greeting(),
+    //     IconButton(
+    //       icon: const Icon(Icons.type_specimen, size: Sizes.p40),
+    //       onPressed: () => context.goNamed(
+    //         AppRoute.flashCardsList.name,
+    //       ),
+    //     ),
+    //     IconButton(
+    //       icon: const Icon(Icons.account_circle, size: Sizes.p40),
+    //       onPressed: () => context.goNamed(
+    //         AppRoute.account.name,
+    //       ),
+    //     ),
+    //   ],
+    // );
   }
 
   @override

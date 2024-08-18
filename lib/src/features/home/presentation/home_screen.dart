@@ -19,19 +19,19 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: const VokkiAppBar(
+    return const Scaffold(
+      appBar: VokkiAppBar(
         showLogo: true,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.goNamed(
-          AppRoute.flashCardNew.name,
-        ),
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => context.goNamed(
+      //     AppRoute.flashCardNew.name,
+      //   ),
+      //   child: const Icon(Icons.add),
+      // ),
       //body: const FlashCardsScreen(),
-      body: const FlashCardsScreen(),
+      body: FlashCardsScreen(),
     );
   }
 }
@@ -54,46 +54,50 @@ class _FlashCardsScreenState extends ConsumerState<FlashCardsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final flashCardsListValue = ref.watch(flashCardsSearchResultsProvider);
-    final error = flashCardsListValue.error;
-    if (error != null) {
-      return Center(
-        child: ErrorMessageWidget(error.toString()),
-      );
-    }
-    final flashCards = flashCardsListValue.value;
-    if (flashCards == null) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    if (flashCards.isEmpty) {
-      return Center(
-        child: Text('Please tap plus to add a flash card'.hardcoded),
-      );
-    }
-
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(Sizes.p16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Flashcards hunted: ${flashCards.length}'),
-              const Text('Learned: 100%'),
-            ],
-          ),
-        ),
-        gapH24,
-        CarouselWidget(
-          pageController: _pageController,
-          flashCards: flashCards,
-        )
-      ],
+    return Center(
+      child: Text('Welcome to Vokki app'.hardcoded),
     );
   }
+  //   final flashCardsListValue = ref.watch(flashCardsSearchResultsProvider);
+  //   final error = flashCardsListValue.error;
+  //   if (error != null) {
+  //     return Center(
+  //       child: ErrorMessageWidget(error.toString()),
+  //     );
+  //   }
+  //   final flashCards = flashCardsListValue.value;
+  //   if (flashCards == null) {
+  //     return const Center(
+  //       child: CircularProgressIndicator(),
+  //     );
+  //   }
+
+  //   if (flashCards.isEmpty) {
+  //     return Center(
+  //       child: Text('Please tap plus to add a flash card'.hardcoded),
+  //     );
+  //   }
+
+  //   return ListView(
+  //     children: [
+  //       Padding(
+  //         padding: const EdgeInsets.all(Sizes.p16),
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Text('Flashcards hunted: ${flashCards.length}'),
+  //             const Text('Learned: 100%'),
+  //           ],
+  //         ),
+  //       ),
+  //       gapH24,
+  //       CarouselWidget(
+  //         pageController: _pageController,
+  //         flashCards: flashCards,
+  //       )
+  //     ],
+  //   );
+  // }
 }
 
 class CarouselWidget extends StatelessWidget {
